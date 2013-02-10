@@ -4,15 +4,17 @@ rastakware.org
 Rastakware GNU/Linux distribution
 
 
-Download source packages
-------------------------
+### Download source archives
 
-For building a Ratakware operating system, you first need to download sources packages
-that are described in the file [toolchain.csv](./toolchain.csv). Execute the following
-command
+You need an already installed Linux system, the Host, for building a Rastakware GNU/Linux distribution.
+For building a Rastakware operating system, you first need to download sources archives that are
+described in the files [toolchain.csv](./toolchain.csv) and [system.csv](./system.csv). Packages
+downloading can be performed automatically with the following commands
 
-    cat toolchain.csv | cut -d";" -f3 | wget -i - -P ./packages
+    mkdir sources
+    cat toolchain.csv | cut -d";" -f2 | wget -i - -P ./sources
+    cat system.csv | cut -d";" -f2 | wget -i - -P ./sources
 
-Then you can check `these` packages
+### Build cross-compilation toolchain
 
 
