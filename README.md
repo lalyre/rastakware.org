@@ -11,6 +11,7 @@ First, download sources archives that are described in the files [toolchain.csv]
 [system.csv](./system.csv). Packages downloading can be performed automatically with the following commands
 
     mkdir sources
+    chmod -v a+wt sources
     cat toolchain.csv | cut -d";" -f2 | sed s/\"//g | wget -i - -P ./sources
     cat system.csv | cut -d";" -f2 | sed s/\"//g | wget -i - -P ./sources
 
