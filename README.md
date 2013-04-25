@@ -29,5 +29,11 @@ First, download sources archives that are described in the files [toolchain.csv]
 /mnt/lfs/tools/
 
 
+Rastafari
+Red Yellow Green
+Ethiopia flag colors
+JA
+
+
 
 
