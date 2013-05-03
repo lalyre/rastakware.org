@@ -38,9 +38,9 @@ First build a host-independant system (compiler, assembler, linker, librairies,.
     export LC_ALL=POSIX
     export PATH=/mnt/rastakware/tools/bin:$PATH
 
-## Compile cross binutils
+## compile cross binutils
 
-## Compile cross Gcc
+## compile cross gcc
 
 
 
