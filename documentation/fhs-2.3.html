@@ -1,0 +1,1229 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Filesystem Hierarchy Standard</title><meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7"></head><body class="BOOK"><div class="BOOK"><a name="AEN1"></a><div class="TITLEPAGE"><h1 class="TITLE"><a name="AEN2">Filesystem Hierarchy Standard</a></h1><h3 class="CORPAUTHOR">Filesystem Hierarchy Standard Group</h3><h4 class="EDITEDBY">Edited by</h4><h3 class="EDITOR">Rusty Russell</h3><h3 class="EDITOR">Daniel Quinlan</h3><h3 class="EDITOR">Christopher Yeoh</h3><p class="COPYRIGHT">Copyright © 1994-2004 Daniel Quinlan</p><p class="COPYRIGHT">Copyright © 2001-2004 Paul 'Rusty' Russell</p><p class="COPYRIGHT">Copyright © 2003-2004 Christopher Yeoh</p><div><div class="ABSTRACT"><p></p><a name="AEN30"></a><p>This standard consists of a set of requirements and guidelines for file
+and directory placement under UNIX-like operating systems.  The
+guidelines are intended to support interoperability of applications,
+system administration tools, development tools, and scripts as well as
+greater uniformity of documentation for these systems.</p><p></p></div></div><div class="LEGALNOTICE"><p></p><a name="AEN25"></a><p>All trademarks and copyrights are owned by their owners, unless
+specifically noted otherwise.  Use of a term in this document should not
+be regarded as affecting the validity of any trademark or service
+mark.</p><p>Permission is granted to make and distribute verbatim copies of
+this standard provided the copyright and this permission notice are
+preserved on all copies.</p><p>Permission is granted to copy and distribute modified versions of this
+standard under the conditions for verbatim copying, provided also that
+the title page is labeled as modified including a reference to the
+original standard, provided that information on retrieving the original
+standard is included, and provided that the entire resulting derived
+work is distributed under the terms of a permission notice identical to
+this one.</p><p>Permission is granted to copy and distribute translations of this
+standard into another language, under the above conditions for modified
+versions, except that this permission notice may be stated in a
+translation approved by the copyright holder.</p><p></p></div><hr></div><div class="TOC"><dl><dt><b>Table of Contents</b></dt><dt>1. <a href="#INTRODUCTION">Introduction</a></dt><dd><dl><dt><a href="#PURPOSE">Purpose</a></dt><dt><a href="#CONVENTIONS">Conventions</a></dt></dl></dd><dt>2. <a href="#THEFILESYSTEM">The Filesystem</a></dt><dt>3. <a href="#THEROOTFILESYSTEM">The Root Filesystem</a></dt><dd><dl><dt><a href="#PURPOSE2">Purpose</a></dt><dt><a href="#REQUIREMENTS">Requirements</a></dt><dt><a href="#SPECIFICOPTIONS">Specific Options</a></dt><dt><a href="#BINESSENTIALUSERCOMMANDBINARIES">/bin : Essential user command binaries (for use by all users)</a></dt><dd><dl><dt><a href="#PURPOSE3">Purpose</a></dt><dt><a href="#REQUIREMENTS2">Requirements</a></dt><dt><a href="#SPECIFICOPTIONS2">Specific Options</a></dt></dl></dd><dt><a href="#BOOTSTATICFILESOFTHEBOOTLOADER">/boot : Static files of the boot loader</a></dt><dd><dl><dt><a href="#PURPOSE4">Purpose</a></dt><dt><a href="#SPECIFICOPTIONS3">Specific Options</a></dt></dl></dd><dt><a href="#DEVDEVICEFILES">/dev : Device files</a></dt><dd><dl><dt><a href="#PURPOSE5">Purpose</a></dt><dt><a href="#SPECIFICOPTIONS4">Specific Options</a></dt></dl></dd><dt><a href="#ETCHOSTSPECIFICSYSTEMCONFIGURATION">/etc : Host-specific system configuration</a></dt><dd><dl><dt><a href="#PURPOSE6">Purpose</a></dt><dt><a href="#REQUIREMENTS3">Requirements</a></dt><dt><a href="#SPECIFICOPTIONS5">Specific Options</a></dt><dt><a href="#ETCOPTCONFIGURATIONFILESFOROPT">/etc/opt : Configuration files for /opt</a></dt><dt><a href="#ETCX11CONFIGURATIONFORTHEXWINDOWS">/etc/X11 : Configuration for the X Window System (optional)</a></dt><dt><a href="#ETCSGMLCONFIGURATIONFILESFORSGMLAN">/etc/sgml : Configuration files for SGML (optional)</a></dt><dt><a href="#AEN795">/etc/xml : Configuration files for XML (optional)</a></dt></dl></dd><dt><a href="#HOMEUSERHOMEDIRECTORIES">/home : User home directories (optional)</a></dt><dd><dl><dt><a href="#PURPOSE10">Purpose</a></dt><dt><a href="#REQUIREMENTS4A">Requirements</a></dt></dl></dd><dt><a href="#LIBESSENTIALSHAREDLIBRARIESANDKERN">/lib : Essential shared libraries and kernel modules</a></dt><dd><dl><dt><a href="#PURPOSE11">Purpose</a></dt><dt><a href="#REQUIREMENTS5">Requirements</a></dt><dt><a href="#SPECIFICOPTIONS7">Specific Options</a></dt></dl></dd><dt><a href="#LIBLTQUALGTALTERNATEFORMATESSENTIAL">/lib&lt;qual&gt; : Alternate format essential shared libraries (optional)</a></dt><dd><dl><dt><a href="#PURPOSE12">Purpose</a></dt><dt><a href="#REQUIREMENTS6">Requirements</a></dt></dl></dd><dt><a href="#MEDIAMOUNTPOINT">/media : Mount point for removeable media</a></dt><dd><dl><dt><a href="#PURPOSEMEDIAMOUNTPOINT">Purpose</a></dt><dt><a href="#SPECIFICOPTIONSMEDIAMOUNT">Specific Options</a></dt></dl></dd><dt><a href="#MNTMOUNTPOINTFORATEMPORARILYMOUNT">/mnt : Mount point for a temporarily mounted filesystem</a></dt><dd><dl><dt><a href="#PURPOSE13">Purpose</a></dt></dl></dd><dt><a href="#OPTADDONAPPLICATIONSOFTWAREPACKAGES">/opt : Add-on application software packages</a></dt><dd><dl><dt><a href="#PURPOSE14">Purpose</a></dt><dt><a href="#REQUIREMENTS7">Requirements</a></dt></dl></dd><dt><a href="#ROOTHOMEDIRECTORYFORTHEROOTUSER">/root : Home directory for the root user (optional)</a></dt><dd><dl><dt><a href="#PURPOSE15">Purpose</a></dt></dl></dd><dt><a href="#SBINSYSTEMBINARIES">/sbin : System binaries</a></dt><dd><dl><dt><a href="#PURPOSE16">Purpose</a></dt><dt><a href="#REQUIREMENTS8">Requirements</a></dt><dt><a href="#SPECIFICOPTIONS8">Specific Options</a></dt></dl></dd><dt><a href="#SRVDATAFORSERVICESPROVIDEDBYSYSTEM">/srv : Data for services provided by this system</a></dt><dd><dl><dt><a href="#PURPOSE16A">Purpose</a></dt></dl></dd><dt><a href="#TMPTEMPORARYFILES">/tmp : Temporary files</a></dt><dd><dl><dt><a href="#PURPOSE17">Purpose</a></dt></dl></dd></dl></dd><dt>4. <a href="#THEUSRHIERARCHY">The /usr Hierarchy</a></dt><dd><dl><dt><a href="#PURPOSE18">Purpose</a></dt><dt><a href="#REQUIREMENTS9">Requirements</a></dt><dt><a href="#SPECIFICOPTIONS9">Specific Options</a></dt><dt><a href="#USRX11R6XWINDOWSYSTEMVERSION11REL">/usr/X11R6 : X Window System, Version 11 Release 6 (optional)</a></dt><dd><dl><dt><a href="#PURPOSE19">Purpose</a></dt><dt><a href="#SPECIFICOPTIONS10">Specific Options</a></dt></dl></dd><dt><a href="#USRBINMOSTUSERCOMMANDS">/usr/bin : Most user commands</a></dt><dd><dl><dt><a href="#PURPOSE20">Purpose</a></dt><dt><a href="#SPECIFICOPTIONS11">Specific Options</a></dt></dl></dd><dt><a href="#USRINCLUDEDIRECTORYFORSTANDARDINCLU">/usr/include : Directory for standard include files.</a></dt><dd><dl><dt><a href="#PURPOSE21">Purpose</a></dt><dt><a href="#SPECIFICOPTIONS12">Specific Options</a></dt></dl></dd><dt><a href="#USRLIBLIBRARIESFORPROGRAMMINGANDPA">/usr/lib : Libraries for programming and packages</a></dt><dd><dl><dt><a href="#PURPOSE22">Purpose</a></dt><dt><a href="#SPECIFICOPTIONS13">Specific Options</a></dt></dl></dd><dt><a href="#USRLIBLTQUALGTALTERNATEFORMATLIBRARI">/usr/lib&lt;qual&gt; : Alternate format libraries (optional)</a></dt><dd><dl><dt><a href="#PURPOSE23">Purpose</a></dt><dt><a href="#USRLOCALLOCALHIERARCHY">/usr/local : Local hierarchy</a></dt></dl></dd><dt><a href="#USRLOCALSHARE1">/usr/local/share</a></dt><dt><a href="#USRSBINNONESSENTIALSTANDARDSYSTEMBI">/usr/sbin : Non-essential standard system binaries</a></dt><dd><dl><dt><a href="#PURPOSE25">Purpose</a></dt></dl></dd><dt><a href="#USRSHAREARCHITECTUREINDEPENDENTDATA">/usr/share : Architecture-independent data</a></dt><dd><dl><dt><a href="#PURPOSE26">Purpose</a></dt><dt><a href="#REQUIREMENTS11">Requirements</a></dt><dt><a href="#SPECIFICOPTIONS15">Specific Options</a></dt><dt><a href="#USRSHAREDICTWORDLISTS">/usr/share/dict : Word lists (optional)</a></dt><dt><a href="#USRSHAREMANMANUALPAGES">/usr/share/man : Manual pages</a></dt><dt><a href="#USRSHAREMISCMISCELLANEOUSARCHITECTURE">/usr/share/misc : Miscellaneous architecture-independent data</a></dt><dt><a href="#USRSHARESGMLSGMLANDXMLDATA">/usr/share/sgml : SGML data (optional)</a></dt><dt><a href="#AEN2007">/usr/share/xml : XML data (optional)</a></dt></dl></dd><dt><a href="#USRSRCSOURCECODE">/usr/src : Source code (optional)</a></dt><dd><dl><dt><a href="#PURPOSE30">Purpose</a></dt></dl></dd></dl></dd><dt>5. <a href="#THEVARHIERARCHY">The /var Hierarchy</a></dt><dd><dl><dt><a href="#PURPOSE31">Purpose</a></dt><dt><a href="#REQUIREMENTS12">Requirements</a></dt><dt><a href="#SPECIFICOPTIONS20">Specific Options</a></dt><dt><a href="#VARACCOUNTPROCESSACCOUNTINGLOGS">/var/account : Process accounting logs (optional)</a></dt><dd><dl><dt><a href="#PURPOSE32">Purpose</a></dt></dl></dd><dt><a href="#VARCACHEAPPLICATIONCACHEDATA">/var/cache : Application cache data</a></dt><dd><dl><dt><a href="#PURPOSE33">Purpose</a></dt><dt><a href="#SPECIFICOPTIONS21">Specific Options</a></dt><dt><a href="#VARCACHEFONTSLOCALLYGENERATEDFONTS">/var/cache/fonts : Locally-generated fonts (optional)</a></dt><dt><a href="#VARCACHEMANLOCALLYFORMATTEDMANUALPAG">/var/cache/man : Locally-formatted manual pages (optional)</a></dt></dl></dd><dt><a href="#VARCRASHSYSTEMCRASHDUMPS">/var/crash : System crash dumps (optional)</a></dt><dd><dl><dt><a href="#PURPOSE36">Purpose</a></dt></dl></dd><dt><a href="#VARGAMESVARIABLEGAMEDATA">/var/games : Variable game data (optional)</a></dt><dd><dl><dt><a href="#PURPOSE37">Purpose</a></dt></dl></dd><dt><a href="#VARLIBVARIABLESTATEINFORMATION">/var/lib : Variable state information</a></dt><dd><dl><dt><a href="#PURPOSE38">Purpose</a></dt><dt><a href="#REQUIREMENTS13">Requirements</a></dt><dt><a href="#SPECIFICOPTIONS23">Specific Options</a></dt><dt><a href="#VARLIBLTEDITORGTEDITORBACKUPFILESAN">/var/lib/&lt;editor&gt; : Editor backup files and state (optional)</a></dt><dt><a href="#VARLIBHWCLOCKSTATEDIRECTORYFORHWCLO">/var/lib/hwclock : State directory for hwclock (optional)</a></dt><dt><a href="#VARLIBMISCMISCELLANEOUSVARIABLEDATA">/var/lib/misc : Miscellaneous variable data</a></dt></dl></dd><dt><a href="#VARLOCKLOCKFILES">/var/lock : Lock files</a></dt><dd><dl><dt><a href="#PURPOSE42">Purpose</a></dt></dl></dd><dt><a href="#VARLOGLOGFILESANDDIRECTORIES">/var/log : Log files and directories</a></dt><dd><dl><dt><a href="#PURPOSE43">Purpose</a></dt><dt><a href="#SPECIFICOPTIONS24">Specific Options</a></dt></dl></dd><dt><a href="#VARMAILUSERMAILBOXFILES">/var/mail : User mailbox files (optional)</a></dt><dd><dl><dt><a href="#PURPOSE44">Purpose</a></dt></dl></dd><dt><a href="#VAROPTVARIABLEDATAFOROPT">/var/opt : Variable data for /opt</a></dt><dd><dl><dt><a href="#PURPOSE45">Purpose</a></dt></dl></dd><dt><a href="#VARRUNRUNTIMEVARIABLEDATA">/var/run : Run-time variable data</a></dt><dd><dl><dt><a href="#PURPOSE46">Purpose</a></dt><dt><a href="#REQUIREMENTS14">Requirements</a></dt></dl></dd><dt><a href="#VARSPOOLAPPLICATIONSPOOLDATA">/var/spool : Application spool data</a></dt><dd><dl><dt><a href="#PURPOSE47">Purpose</a></dt><dt><a href="#SPECIFICOPTIONS25">Specific Options</a></dt><dt><a href="#VARSPOOLLPDLINEPRINTERDAEMONPRINTQU">/var/spool/lpd : Line-printer daemon print queues (optional)</a></dt><dt><a href="#VARSPOOLRWHORWHODFILES">/var/spool/rwho : Rwhod files (optional)</a></dt></dl></dd><dt><a href="#VARTMPTEMPORARYFILESPRESERVEDBETWEE">/var/tmp : Temporary files preserved between system reboots</a></dt><dd><dl><dt><a href="#PURPOSE50">Purpose</a></dt></dl></dd><dt><a href="#VARYPNETWORKINFORMATIONSERVICE">/var/yp : Network Information Service (NIS) database files (optional)</a></dt><dd><dl><dt><a href="#PURPOSE51">Purpose</a></dt></dl></dd></dl></dd><dt>6. <a href="#OPERATINGSYSTEMSPECIFICANNEX">Operating System Specific Annex</a></dt><dd><dl><dt><a href="#LINUX">Linux</a></dt><dd><dl><dt><a href="#ROOTDIRECTORY">/ : Root directory</a></dt><dt><a href="#BINESSENTIALUSERCOMMANDBINARIES2">/bin : Essential user command binaries (for use by all users)</a></dt><dt><a href="#DEVDEVICESANDSPECIALFILES">/dev : Devices and special files</a></dt><dt><a href="#ETCHOSTSPECIFICSYSTEMCONFIGURATION2">/etc : Host-specific system configuration</a></dt><dt><a href="#LIB64">/lib64 and /lib32 : 64/32-bit libraries (architecture dependent)</a></dt><dt><a href="#PROCKERNELANDPROCESSINFORMATIONVIR">/proc : Kernel and process information virtual filesystem</a></dt><dt><a href="#SBINESSENTIALSYSTEMBINARIES">/sbin : Essential system binaries</a></dt><dt><a href="#USRINCLUDEHEADERFILESINCLUDEDBYCP">/usr/include : Header files included by C programs</a></dt><dt><a href="#USRSRCSOURCECODE2">/usr/src : Source code</a></dt><dt><a href="#VARSPOOLCRONCRONANDATJOBS">/var/spool/cron : cron and at jobs</a></dt></dl></dd></dl></dd><dt>7. <a href="#APPENDIX">Appendix</a></dt><dd><dl><dt><a href="#THEFHSMAILINGLIST">The FHS mailing list</a></dt><dt><a href="#BACKGROUNDOFTHEFHS">Background of the FHS</a></dt><dt><a href="#GENERALGUIDELINES">General Guidelines</a></dt><dt><a href="#SCOPE">Scope</a></dt><dt><a href="#ACKNOWLEDGMENTS">Acknowledgments</a></dt><dt><a href="#CONTRIBUTORS">Contributors</a></dt></dl></dd></dl></div><div class="CHAPTER"><hr><h1><a name="INTRODUCTION"></a>Chapter 1. Introduction</h1><div class="SECTION"><h2 class="SECTION"><a name="PURPOSE">Purpose</a></h2><p>This standard enables:</p><p></p><ul><li><p>Software to predict the location of installed files and
+directories, and</p></li><li><p>Users to predict the location of installed files and
+directories.</p></li></ul><p>We do this by:</p><p></p><ul><li><p>Specifying guiding principles for each area of the filesystem,</p></li><li><p>Specifying the minimum files and directories required,</p></li><li><p>Enumerating exceptions to the principles, and</p></li><li><p>Enumerating specific cases where there has been historical conflict.</p></li></ul><p>The FHS document is used by:</p><p></p><ul><li><p>Independent software suppliers to create applications which are FHS
+compliant, and work with distributions which are FHS complaint,</p></li><li><p>OS creators to provide systems which are FHS compliant, and</p></li><li><p>Users to understand and maintain the FHS compliance of a system.</p></li></ul><p>The FHS document has a limited scope:</p><p></p><ul><li><p>Local placement of local files is a local issue, so FHS does not
+attempt to usurp system administrators.</p></li><li><p>FHS addresses issues where file placements need to be coordinated
+between multiple parties such as local sites, distributions,
+applications, documentation, etc.</p></li></ul></div><div class="SECTION"><hr><h2 class="SECTION"><a name="CONVENTIONS">Conventions</a></h2><p>We recommend that you read a typeset version of this document rather
+than the plain text version.  In the typeset version, the names of files
+and directories are displayed in a constant-width font.</p><p>Components of filenames that vary are represented by a description
+of the contents enclosed in "<span class="emphasis"><i class="EMPHASIS">&lt;</i></span>" and
+"<span class="emphasis"><i class="EMPHASIS">&gt;</i></span>" characters, <span class="emphasis"><i class="EMPHASIS">&lt;thus&gt;</i></span>.  Electronic mail addresses are also
+enclosed in "&lt;" and "&gt;" but are shown in the usual
+typeface.</p><p>Optional components of filenames are enclosed in
+"<span class="emphasis"><i class="EMPHASIS">[</i></span>" and "<span class="emphasis"><i class="EMPHASIS">]</i></span>" characters and may
+be combined with the "<span class="emphasis"><i class="EMPHASIS">&lt;</i></span>" and
+"<span class="emphasis"><i class="EMPHASIS">&gt;</i></span>" convention.  For example, if a filename is
+allowed to occur either with or without an extension, it might be
+represented by
+<span class="emphasis"><i class="EMPHASIS">&lt;filename&gt;[.&lt;extension&gt;]</i></span>.</p><p>Variable substrings of directory names and filenames are indicated
+by "<span class="emphasis"><i class="EMPHASIS">*</i></span>".</p><p>The sections of the text marked as
+<span class="emphasis"><i class="EMPHASIS">Rationale</i></span> are explanatory and are
+non-normative.</p></div></div><div class="CHAPTER"><hr><h1><a name="THEFILESYSTEM"></a>Chapter 2. The Filesystem</h1><p>This standard assumes that the operating system underlying an
+FHS-compliant file system supports the same basic security features
+found in most UNIX filesystems.</p><p>It is possible to define two independent distinctions among
+files: shareable vs. unshareable and variable vs. static.  In general,
+files that differ in either of these respects should be located in
+different directories.  This makes it easy to store files with
+different usage characteristics on different filesystems.</p><p>"Shareable" files are those that can be stored on one host
+and used on others.  "Unshareable" files are those that are not
+shareable.  For example, the files in user home directories are
+shareable whereas device lock files are not.</p><p>"Static" files include binaries, libraries, documentation
+files and other files that do not change without system administrator
+intervention.  "Variable" files are files that are not static.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>Shareable files can be stored on one host and used on several
+others.  Typically, however, not all files in the filesystem
+hierarchy are shareable and so each system has local storage
+containing at least its unshareable files.  It is convenient if all
+the files a system requires that are stored on a foreign host can be
+made available by mounting one or a few directories from the foreign
+host.</p><p>Static and variable files should be segregated because static
+files, unlike variable files, can be stored on read-only media and
+do not need to be backed up on the same schedule as variable
+files.</p><p>Historical UNIX-like filesystem hierarchies contained both
+static and variable files under both <tt class="FILENAME">/usr</tt> and
+<tt class="FILENAME">/etc</tt>.  In order to realize the advantages
+mentioned above, the <tt class="FILENAME">/var</tt> hierarchy was
+created and all variable files were transferred from
+<tt class="FILENAME">/usr</tt> to <tt class="FILENAME">/var</tt>.
+Consequently <tt class="FILENAME">/usr</tt> can now be mounted read-only
+(if it is a separate filesystem).  Variable files have been
+transferred from <tt class="FILENAME">/etc</tt> to
+<tt class="FILENAME">/var</tt> over a longer period as technology has
+permitted.</p><p>Here is an example of a FHS-compliant system.
+(Other FHS-compliant layouts are possible.)</p><div class="INFORMALTABLE"><p></p><a name="AEN103"></a><table class="CALSTABLE" border="1" frame="hsides"><col><col><col><thead><tr><th><span class="emphasis"><i class="EMPHASIS"></i></span></th><th>shareable</th><th>unshareable</th></tr></thead><tbody><tr><td>static</td><td>/usr</td><td>/etc</td></tr><tr><td>&nbsp;</td><td>/opt</td><td>/boot</td></tr><tr><td>variable</td><td>/var/mail</td><td>/var/run</td></tr><tr><td>&nbsp;</td><td>/var/spool/news</td><td>/var/lock</td></tr></tbody></table><p></p></div></td></tr></tbody></table></div></div><div class="CHAPTER"><hr><h1><a name="THEROOTFILESYSTEM"></a>Chapter 3. The Root Filesystem</h1><div class="SECTION"><h2 class="SECTION"><a name="PURPOSE2">Purpose</a></h2><p>The contents of the root filesystem must be adequate to boot,
+restore, recover, and/or repair the system.</p><p></p><ul><li style="list-style-type: disc;"><p>To boot a system, enough must be present on the root partition
+to mount other filesystems.  This includes utilities, configuration,
+boot loader information, and other essential start-up data.
+<tt class="FILENAME">/usr</tt>, <tt class="FILENAME">/opt</tt>, and
+<tt class="FILENAME">/var</tt> are designed such that they may be located
+on other partitions or filesystems.</p></li><li style="list-style-type: disc;"><p>To enable recovery and/or repair of a system, those utilities
+needed by an experienced maintainer to diagnose and reconstruct a
+damaged system must be present on the root filesystem.</p></li><li style="list-style-type: disc;"><p>To restore a system, those utilities needed to restore from
+system backups (on floppy, tape, etc.) must be present on the root
+filesystem.</p></li></ul><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>The primary concern used to balance these considerations, which
+favor placing many things on the root filesystem, is the goal of
+keeping root as small as reasonably possible.  For several reasons, it
+is desirable to keep the root filesystem small:</p><p></p><ul><li><p>It is occasionally mounted from very small media.</p></li><li><p>The root filesystem contains many system-specific configuration
+files.  Possible examples include a kernel that is specific to the
+system, a specific hostname, etc.  This means that the root filesystem
+isn't always shareable between networked systems.  Keeping it small on
+servers in networked systems minimizes the amount of lost space for
+areas of unshareable files.  It also allows workstations with smaller
+local hard drives.</p></li><li><p>While you may have the root filesystem on a large partition, and
+may be able to fill it to your heart's content, there will be people
+with smaller partitions.  If you have more files installed, you may
+find incompatibilities with other systems using root filesystems on
+smaller partitions.  If you are a developer then you may be turning
+your assumption into a problem for a large number of users.</p></li><li><p>Disk errors that corrupt data on the root filesystem are a
+greater problem than errors on any other partition.  A small root
+filesystem is less prone to corruption as the result of a system
+crash.</p></li></ul></td></tr></tbody></table></div><p>Applications must never create or require special files or
+subdirectories in the root directory.  Other locations in the FHS
+hierarchy provide more than enough flexibility for any package.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>There are several reasons why creating a new subdirectory of
+the root filesystem is prohibited:</p><p></p><ul><li style="list-style-type: disc;"><p>It demands space on a root partition which the system
+administrator may want kept small and simple for either performance or
+security reasons.</p></li><li style="list-style-type: disc;"><p>It evades whatever discipline the system administrator may have
+set up for distributing standard file hierarchies across mountable
+volumes.</p></li></ul><p>Distributions should not create new directories in the root
+hierarchy without extremely careful consideration of the consequences
+including for application portability.</p></td></tr></tbody></table></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="REQUIREMENTS">Requirements</a></h2><p>The following directories, or symbolic links to directories, are
+required in <tt class="FILENAME">/</tt>.</p><div class="INFORMALTABLE"><p></p><a name="AEN169"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">bin</tt></td><td>Essential command binaries</td></tr><tr><td><tt class="FILENAME">boot</tt></td><td>Static files of the boot loader</td></tr><tr><td><tt class="FILENAME">dev</tt></td><td>Device files</td></tr><tr><td><tt class="FILENAME">etc</tt></td><td>Host-specific system configuration</td></tr><tr><td><tt class="FILENAME">lib</tt></td><td>Essential shared libraries and kernel modules</td></tr><tr><td><tt class="FILENAME">media</tt></td><td>Mount point for removeable media</td></tr><tr><td><tt class="FILENAME">mnt</tt></td><td>Mount point for mounting a filesystem temporarily</td></tr><tr><td><tt class="FILENAME">opt</tt></td><td>Add-on application software packages</td></tr><tr><td><tt class="FILENAME">sbin</tt></td><td>Essential system binaries</td></tr><tr><td><tt class="FILENAME">srv</tt></td><td>Data for services provided by this system</td></tr><tr><td><tt class="FILENAME">tmp</tt></td><td>Temporary files</td></tr><tr><td><tt class="FILENAME">usr</tt></td><td>Secondary hierarchy</td></tr><tr><td><tt class="FILENAME">var</tt></td><td>Variable data</td></tr></tbody></table><p></p></div><p>Each directory listed above is specified in detail in separate
+subsections below.  <tt class="FILENAME">/usr</tt> and
+<tt class="FILENAME">/var</tt> each have a complete section in this
+document due to the complexity of those directories.</p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="SPECIFICOPTIONS">Specific Options</a></h2><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/</tt>, if the corresponding subsystem is
+installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN235"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">home</tt></td><td>User home directories (optional)</td></tr><tr><td><tt class="FILENAME">lib&lt;qual&gt;</tt></td><td>Alternate format essential shared libraries (optional)</td></tr><tr><td><tt class="FILENAME">root</tt></td><td>Home directory for the root user (optional)</td></tr></tbody></table><p></p></div><p>Each directory listed above is specified in detail in separate
+subsections below.</p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="BINESSENTIALUSERCOMMANDBINARIES">/bin : Essential user command binaries (for use by all users)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE3">Purpose</a></h3><p><tt class="FILENAME">/bin</tt> contains commands that may be used by
+both the system administrator and by users, but which are required
+when no other filesystems are mounted (e.g. in single user mode).  It
+may also contain commands which are used indirectly by scripts.
+
+<a name="AEN261" href="#FTN.AEN261"><span class="footnote">[1]</span></a></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS2">Requirements</a></h3><p>There must be no subdirectories in
+<tt class="FILENAME">/bin</tt>.</p><p>The following commands, or symbolic links to commands, are
+required in <tt class="FILENAME">/bin</tt>.</p><div class="INFORMALTABLE"><p></p><a name="AEN272"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody><tr><td><b class="COMMAND">cat</b></td><td>Utility to concatenate files to standard output</td></tr><tr><td><b class="COMMAND">chgrp</b></td><td>Utility to change file group ownership</td></tr><tr><td><b class="COMMAND">chmod</b></td><td>Utility to change file access permissions</td></tr><tr><td><b class="COMMAND">chown</b></td><td>Utility to change file owner and group</td></tr><tr><td><b class="COMMAND">cp</b></td><td>Utility to copy files and directories</td></tr><tr><td><b class="COMMAND">date</b></td><td>Utility to print or set the system data and time</td></tr><tr><td><b class="COMMAND">dd</b></td><td>Utility to convert and copy a file</td></tr><tr><td><b class="COMMAND">df</b></td><td>Utility to report filesystem disk space usage</td></tr><tr><td><b class="COMMAND">dmesg</b></td><td>Utility to print or control the kernel message buffer</td></tr><tr><td><b class="COMMAND">echo</b></td><td>Utility to display a line of text</td></tr><tr><td><b class="COMMAND">false</b></td><td>Utility to do nothing, unsuccessfully</td></tr><tr><td><b class="COMMAND">hostname</b></td><td>Utility to show or set the system's host name</td></tr><tr><td><b class="COMMAND">kill</b></td><td>Utility to send signals to processes</td></tr><tr><td><b class="COMMAND">ln</b></td><td>Utility to make links between files</td></tr><tr><td><b class="COMMAND">login</b></td><td>Utility to begin a session on the system</td></tr><tr><td><b class="COMMAND">ls</b></td><td>Utility to list directory contents</td></tr><tr><td><b class="COMMAND">mkdir</b></td><td>Utility to make directories</td></tr><tr><td><b class="COMMAND">mknod</b></td><td>Utility to make block or character special files</td></tr><tr><td><b class="COMMAND">more</b></td><td>Utility to page through text</td></tr><tr><td><b class="COMMAND">mount</b></td><td>Utility to mount a filesystem</td></tr><tr><td><b class="COMMAND">mv</b></td><td>Utility to move/rename files</td></tr><tr><td><b class="COMMAND">ps</b></td><td>Utility to report process status</td></tr><tr><td><b class="COMMAND">pwd</b></td><td>Utility to print name of current working directory</td></tr><tr><td><b class="COMMAND">rm</b></td><td>Utility to remove files or directories</td></tr><tr><td><b class="COMMAND">rmdir</b></td><td>Utility to remove empty directories</td></tr><tr><td><b class="COMMAND">sed</b></td><td>The `sed' stream editor</td></tr><tr><td><b class="COMMAND">sh</b></td><td>The Bourne command shell</td></tr><tr><td><b class="COMMAND">stty</b></td><td>Utility to change and print terminal line settings</td></tr><tr><td><b class="COMMAND">su</b></td><td>Utility to change user ID</td></tr><tr><td><b class="COMMAND">sync</b></td><td>Utility to flush filesystem buffers</td></tr><tr><td><b class="COMMAND">true</b></td><td>Utility to do nothing, successfully</td></tr><tr><td><b class="COMMAND">umount</b></td><td>Utility to unmount file systems</td></tr><tr><td><b class="COMMAND">uname</b></td><td>Utility to print system information</td></tr></tbody></table><p></p></div><p>If <b class="COMMAND">/bin/sh</b> is not a true Bourne shell, it
+must be a hard or symbolic link to the real shell command.</p><p>The <b class="COMMAND">[</b> and <b class="COMMAND">test</b>
+commands must be placed together in either <tt class="FILENAME">/bin</tt>
+or <tt class="FILENAME">/usr/bin</tt>.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>For example bash behaves differently when called as
+<b class="COMMAND">sh</b> or <b class="COMMAND">bash</b>.  The use of a
+symbolic link also allows users to easily see that
+<b class="COMMAND">/bin/sh</b> is not a true Bourne shell.</p><p>The requirement for the <b class="COMMAND">[</b> and
+<b class="COMMAND">test</b> commands to be included as binaries (even if
+implemented internally by the shell) is shared with the POSIX.2
+standard.
+</p></td></tr></tbody></table></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS2">Specific Options</a></h3><p>The following programs, or symbolic links to programs, must be
+in <tt class="FILENAME">/bin</tt> if the corresponding subsystem is
+installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN431"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody><tr><td><b class="COMMAND">csh</b></td><td>The C shell (optional)</td></tr><tr><td><b class="COMMAND">ed</b></td><td>The `ed' editor (optional)</td></tr><tr><td><b class="COMMAND">tar</b></td><td>The tar archiving utility (optional)</td></tr><tr><td><b class="COMMAND">cpio</b></td><td>The cpio archiving utility (optional)</td></tr><tr><td><b class="COMMAND">gzip</b></td><td>The GNU compression utility (optional)</td></tr><tr><td><b class="COMMAND">gunzip</b></td><td>The GNU uncompression utility (optional)</td></tr><tr><td><b class="COMMAND">zcat</b></td><td>The GNU uncompression utility (optional)</td></tr><tr><td><b class="COMMAND">netstat</b></td><td>The network statistics utility (optional)</td></tr><tr><td><b class="COMMAND">ping</b></td><td>The ICMP network test utility (optional)</td></tr></tbody></table><p></p></div><p>If the <b class="COMMAND">gunzip</b> and <b class="COMMAND">zcat</b>
+programs exist, they must be symbolic or hard links to
+gzip. <b class="COMMAND">/bin/csh</b> may be a symbolic link to
+<b class="COMMAND">/bin/tcsh</b> or
+<b class="COMMAND">/usr/bin/tcsh</b>.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>The tar, gzip and cpio commands have been added to make restoration of a
+system possible (provided that <tt class="FILENAME">/</tt> is intact).</p><p>Conversely, if no restoration from the root partition is ever
+expected, then these binaries might be omitted (e.g., a ROM chip root,
+mounting <tt class="FILENAME">/usr</tt> through NFS).  If restoration of a
+system is planned through the network, then <b class="COMMAND">ftp</b>
+or <b class="COMMAND">tftp</b> (along with everything necessary to get
+an ftp connection) must be available on the root partition.
+</p></td></tr></tbody></table></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="BOOTSTATICFILESOFTHEBOOTLOADER">/boot : Static files of the boot loader</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE4">Purpose</a></h3><p>This directory contains everything required for the boot process
+except configuration files not needed at boot time and the map
+installer. Thus /boot stores data that is used before the kernel
+begins executing user-mode programs.  This may include saved master
+boot sectors and sector map files.
+
+<a name="AEN493" href="#FTN.AEN493"><span class="footnote">[2]</span></a>
+</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS3">Specific Options</a></h3><p>The operating system kernel must be located in either
+<tt class="FILENAME">/</tt> or <tt class="FILENAME">/boot</tt>.
+
+<a name="AEN507" href="#FTN.AEN507"><span class="footnote">[3]</span></a></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="DEVDEVICEFILES">/dev : Device files</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE5">Purpose</a></h3><p>The <tt class="FILENAME">/dev</tt> directory is the location of
+special or device files.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS4">Specific Options</a></h3><p>If it is possible that devices in <tt class="FILENAME">/dev</tt> will
+need to be manually created, <tt class="FILENAME">/dev</tt> must contain a
+command named <tt class="FILENAME">MAKEDEV</tt>, which can create devices
+as needed.  It may also contain a <tt class="FILENAME">MAKEDEV.local</tt>
+for any local devices.</p><p>If required, <tt class="FILENAME">MAKEDEV</tt> must have provisions
+for creating any device that may be found on the system, not just
+those that a particular implementation installs.</p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="ETCHOSTSPECIFICSYSTEMCONFIGURATION">/etc : Host-specific system configuration</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE6">Purpose</a></h3><p>The <tt class="FILENAME">/etc</tt> hierarchy contains configuration
+files.  A "configuration file" is a local file used to control the
+operation of a program; it must be static and cannot be an executable
+binary.
+
+<a name="AEN534" href="#FTN.AEN534"><span class="footnote">[4]</span></a></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS3">Requirements</a></h3><p>No binaries may be located under <tt class="FILENAME">/etc</tt>.
+
+<a name="AEN540" href="#FTN.AEN540"><span class="footnote">[5]</span></a></p><p>The following directories, or symbolic links to directories are
+required in <tt class="FILENAME">/etc</tt>:</p><div class="INFORMALTABLE"><p></p><a name="AEN546"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td>opt</td><td>Configuration for /opt</td></tr><tr><td>X11</td><td>Configuration for the X Window system (optional)</td></tr><tr><td>sgml</td><td>Configuration for SGML (optional)</td></tr><tr><td>xml</td><td>Configuration for XML (optional)</td></tr></tbody></table><p></p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS5">Specific Options</a></h3><p>The following directories, or symbolic links to directories must
+be in <tt class="FILENAME">/etc</tt>, if the corresponding subsystem is
+installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN569"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td>opt</td><td>Configuration for /opt</td></tr></tbody></table><p></p></div><p>The following files, or symbolic links to files, must be in
+<tt class="FILENAME">/etc</tt> if the corresponding subsystem is
+installed:
+
+<a name="AEN581" href="#FTN.AEN581"><span class="footnote">[6]</span></a></p><div class="INFORMALTABLE"><p></p><a name="AEN588"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>File</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">csh.login</tt></td><td>Systemwide initialization file for C shell logins (optional)</td></tr><tr><td><tt class="FILENAME">exports</tt></td><td>NFS filesystem access control list (optional)</td></tr><tr><td><tt class="FILENAME">fstab</tt></td><td>Static information about filesystems (optional)</td></tr><tr><td><tt class="FILENAME">ftpusers</tt></td><td>FTP daemon user access control list (optional)</td></tr><tr><td><tt class="FILENAME">gateways</tt></td><td>File which lists gateways for routed (optional)</td></tr><tr><td><tt class="FILENAME">gettydefs</tt></td><td>Speed and terminal settings used by getty (optional)</td></tr><tr><td><tt class="FILENAME">group</tt></td><td>User group file (optional)</td></tr><tr><td><tt class="FILENAME">host.conf</tt></td><td>Resolver configuration file (optional)</td></tr><tr><td><tt class="FILENAME">hosts</tt></td><td>Static information about host names (optional)</td></tr><tr><td><tt class="FILENAME">hosts.allow</tt></td><td>Host access file for TCP wrappers (optional)</td></tr><tr><td><tt class="FILENAME">hosts.deny</tt></td><td>Host access file for TCP wrappers (optional)</td></tr><tr><td><tt class="FILENAME">hosts.equiv</tt></td><td>List of trusted hosts for rlogin, rsh, rcp (optional)</td></tr><tr><td><tt class="FILENAME">hosts.lpd</tt></td><td>List of trusted hosts for lpd (optional)</td></tr><tr><td><tt class="FILENAME">inetd.conf</tt></td><td>Configuration file for inetd (optional)</td></tr><tr><td><tt class="FILENAME">inittab</tt></td><td>Configuration file for init (optional)</td></tr><tr><td><tt class="FILENAME">issue</tt></td><td>Pre-login message and identification file (optional)</td></tr><tr><td><tt class="FILENAME">ld.so.conf</tt></td><td>List of extra directories to search for shared libraries (optional)</td></tr><tr><td><tt class="FILENAME">motd</tt></td><td>Post-login message of the day file (optional)</td></tr><tr><td><tt class="FILENAME">mtab</tt></td><td>Dynamic information about filesystems (optional)</td></tr><tr><td><tt class="FILENAME">mtools.conf</tt></td><td>Configuration file for mtools (optional)</td></tr><tr><td><tt class="FILENAME">networks</tt></td><td>Static information about network names (optional)</td></tr><tr><td><tt class="FILENAME">passwd</tt></td><td>The password file (optional)</td></tr><tr><td><tt class="FILENAME">printcap</tt></td><td>The lpd printer capability database (optional)</td></tr><tr><td><tt class="FILENAME">profile</tt></td><td>Systemwide initialization file for sh shell logins (optional)</td></tr><tr><td><tt class="FILENAME">protocols</tt></td><td>IP protocol listing (optional)</td></tr><tr><td><tt class="FILENAME">resolv.conf</tt></td><td>Resolver configuration file (optional)</td></tr><tr><td><tt class="FILENAME">rpc</tt></td><td>RPC protocol listing (optional)</td></tr><tr><td><tt class="FILENAME">securetty</tt></td><td>TTY access control for root login (optional)</td></tr><tr><td><tt class="FILENAME">services</tt></td><td>Port names for network services (optional)</td></tr><tr><td><tt class="FILENAME">shells</tt></td><td>Pathnames of valid login shells (optional)</td></tr><tr><td><tt class="FILENAME">syslog.conf</tt></td><td>Configuration file for syslogd (optional)</td></tr></tbody></table><p></p></div><p><tt class="FILENAME">mtab</tt> does not fit the static nature of
+<tt class="FILENAME">/etc</tt>: it is excepted for historical reasons.
+
+<a name="AEN722" href="#FTN.AEN722"><span class="footnote">[7]</span></a>
+</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="ETCOPTCONFIGURATIONFILESFOROPT">/etc/opt : Configuration files for /opt</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE7">Purpose</a></h4><p>Host-specific configuration files for add-on application
+software packages must be installed within the directory
+<tt class="FILENAME">/etc/opt/&lt;subdir&gt;</tt>, where
+<tt class="FILENAME">&lt;subdir&gt;</tt> is the name of the subtree in
+<tt class="FILENAME">/opt</tt> where the static data from that package is
+stored.</p></div><div class="SECTION"><hr><h4 class="SECTION"><a name="REQUIREMENTS4">Requirements</a></h4><p>No structure is imposed on the internal arrangement of
+<tt class="FILENAME">/etc/opt/&lt;subdir&gt;</tt>.</p><p>If a configuration file must reside in a different location in
+order for the package or system to function properly, it may be placed
+in a location other than
+<tt class="FILENAME">/etc/opt/&lt;subdir&gt;</tt>.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>Refer to the rationale for <tt class="FILENAME">/opt</tt>.</p></td></tr></tbody></table></div></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="ETCX11CONFIGURATIONFORTHEXWINDOWS">/etc/X11 : Configuration for the X Window System (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE8">Purpose</a></h4><p><span class="emphasis"><i class="EMPHASIS">/etc/X11</i></span> is the location for all X11
+host-specific configuration.  This directory is necessary to allow
+local control if <span class="emphasis"><i class="EMPHASIS">/usr</i></span> is mounted read
+only.</p></div><div class="SECTION"><hr><h4 class="SECTION"><a name="SPECIFICOPTIONS6">Specific Options</a></h4><p>The following files, or symbolic links to files, must be in
+<tt class="FILENAME">/etc/X11</tt> if the corresponding subsystem is
+installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN754"></a><table class="CALSTABLE" border="0" frame="void"><col title="C1" width="1*"><col title="C2" width="1*"><thead><tr><th>File</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">Xconfig</tt></td><td>The configuration file for early versions of XFree86 (optional)</td></tr><tr><td><tt class="FILENAME">XF86Config</tt></td><td>The configuration file for XFree86 versions 3 and 4 (optional)</td></tr><tr><td><tt class="FILENAME">Xmodmap</tt></td><td>Global X11 keyboard modification file (optional)</td></tr></tbody></table><p></p></div><p>Subdirectories of <tt class="FILENAME">/etc/X11</tt> may include
+those for <tt class="FILENAME">xdm</tt> and for any other programs (some
+window managers, for example) that need them.
+
+<a name="AEN778" href="#FTN.AEN778"><span class="footnote">[8]</span></a>
+
+We recommend that window managers with only one configuration file
+which is a default <tt class="FILENAME">.*wmrc</tt> file must name it
+<tt class="FILENAME">system.*wmrc</tt> (unless there is a widely-accepted
+alternative name) and not use a subdirectory.  Any window manager
+subdirectories must be identically named to the actual window manager
+binary.</p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="ETCSGMLCONFIGURATIONFILESFORSGMLAN">/etc/sgml : Configuration files for SGML (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE9">Purpose</a></h4><p>Generic configuration files defining high-level parameters of
+the SGML systems are installed here.  Files with names
+<tt class="FILENAME">*.conf</tt> indicate generic configuration files.
+File with names <tt class="FILENAME">*.cat</tt> are the DTD-specific
+centralized catalogs, containing references to all other catalogs
+needed to use the given DTD.  The super catalog file
+<tt class="FILENAME">catalog</tt> references all the centralized
+catalogs.</p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="AEN795">/etc/xml : Configuration files for XML (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="AEN797">Purpose</a></h4><p>Generic configuration files defining high-level parameters of
+the XML systems are installed here.  Files with names
+<tt class="FILENAME">*.conf</tt> indicate generic configuration files.
+The super catalog file
+<tt class="FILENAME">catalog</tt> references all the centralized
+catalogs.</p></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="HOMEUSERHOMEDIRECTORIES">/home : User home directories (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE10">Purpose</a></h3><p><tt class="FILENAME">/home</tt> is a fairly standard concept, but it
+is clearly a site-specific filesystem.
+
+<a name="AEN808" href="#FTN.AEN808"><span class="footnote">[9]</span></a>
+
+The setup will differ from host to host.  Therefore, no program should
+rely on this location.
+
+<a name="AEN819" href="#FTN.AEN819"><span class="footnote">[10]</span></a>
+</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS4A">Requirements</a></h3><p>User specific configuration files for applications are stored in the
+user's home directory in a file that starts with the '.' character (a
+"dot file").  If an application needs to create more than one dot file
+then they should be placed in a subdirectory with a name starting with
+a '.' character, (a "dot directory").  In this case the configuration
+files should not start with the '.' character.
+<a name="AEN826" href="#FTN.AEN826"><span class="footnote">[11]</span></a></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="LIBESSENTIALSHAREDLIBRARIESANDKERN">/lib : Essential shared libraries and kernel modules</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE11">Purpose</a></h3><p>The <tt class="FILENAME">/lib</tt> directory contains those shared
+library images needed to boot the system and run the commands in the
+root filesystem, ie. by binaries in <tt class="FILENAME">/bin</tt> and
+<tt class="FILENAME">/sbin</tt>.
+
+<a name="AEN836" href="#FTN.AEN836"><span class="footnote">[12]</span></a></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS5">Requirements</a></h3><p>At least one of each of the following filename patterns are
+required (they may be files, or symbolic links):</p><div class="INFORMALTABLE"><p></p><a name="AEN849"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>File</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">libc.so.*</tt></td><td>The dynamically-linked C library (optional)</td></tr><tr><td><tt class="FILENAME">ld*</tt></td><td>The execution time linker/loader (optional)</td></tr></tbody></table><p></p></div><p>If a C preprocessor is installed, <span class="emphasis"><i class="EMPHASIS">/lib/cpp</i></span>
+must be a reference to it, for historical reasons.
+
+<a name="AEN866" href="#FTN.AEN866"><span class="footnote">[13]</span></a></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS7">Specific Options</a></h3><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/lib</tt>, if the corresponding subsystem
+is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN873"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">modules</tt></td><td>Loadable kernel modules (optional)</td></tr></tbody></table><p></p></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="LIBLTQUALGTALTERNATEFORMATESSENTIAL">/lib&lt;qual&gt; : Alternate format essential shared libraries (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE12">Purpose</a></h3><p>There may be one or more variants of the
+<tt class="FILENAME">/lib</tt> directory on systems which support more than
+one binary format requiring separate libraries.
+
+<a name="AEN890" href="#FTN.AEN890"><span class="footnote">[14]</span></a></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS6">Requirements</a></h3><p>If one or more of these directories exist, the requirements for
+their contents are the same as the normal <tt class="FILENAME">/lib</tt>
+directory, except that <tt class="FILENAME">/lib&lt;qual&gt;/cpp</tt> is
+not required.
+
+<a name="AEN900" href="#FTN.AEN900"><span class="footnote">[15]</span></a></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="MEDIAMOUNTPOINT">/media : Mount point for removeable media</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSEMEDIAMOUNTPOINT">Purpose</a></h3><p>This directory contains subdirectories which are used as mount
+points for removeable media such as floppy disks, cdroms and zip
+disks.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>Historically there have been a number of other different places
+used to mount removeable media such as <tt class="FILENAME">/cdrom</tt>,
+<tt class="FILENAME">/mnt</tt> or <tt class="FILENAME">/mnt/cdrom</tt>. Placing
+the mount points for all removeable media directly in the root
+directory would potentially result in a large number of extra
+directories in <tt class="FILENAME">/</tt>. Although the use of
+subdirectories in <tt class="FILENAME">/mnt</tt> as a mount point has
+recently been common, it conflicts with a much older tradition of
+using <tt class="FILENAME">/mnt</tt> directly as a temporary mount point.</p></td></tr></tbody></table></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONSMEDIAMOUNT">Specific Options</a></h3><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/media</tt>, if the corresponding subsystem
+is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN923"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">floppy</tt></td><td>Floppy drive (optional)</td></tr><tr><td><tt class="FILENAME">cdrom</tt></td><td>CD-ROM drive (optional)</td></tr><tr><td><tt class="FILENAME">cdrecorder</tt></td><td>CD writer (optional)</td></tr><tr><td><tt class="FILENAME">zip</tt></td><td>Zip drive (optional)</td></tr></tbody></table><p></p></div><p>On systems where more than one device exists for mounting a
+certain type of media, mount directories can be created by appending a
+digit to the name of those available above starting with '0', but the
+unqualified name must also exist.
+
+<a name="AEN947" href="#FTN.AEN947"><span class="footnote">[16]</span></a>
+</p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="MNTMOUNTPOINTFORATEMPORARILYMOUNT">/mnt : Mount point for a temporarily mounted filesystem</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE13">Purpose</a></h3><p>This directory is provided so that the system administrator may
+temporarily mount a filesystem as needed.  The content of this
+directory is a local issue and should not affect the manner in which
+any program is run.</p><p>This directory must not be used by installation programs: a
+suitable temporary directory not in use by the system must be used
+instead.</p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="OPTADDONAPPLICATIONSOFTWAREPACKAGES">/opt : Add-on application software packages</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE14">Purpose</a></h3><p><tt class="FILENAME">/opt</tt> is reserved for the installation of
+add-on application software packages.</p><p>A package to be installed in <tt class="FILENAME">/opt</tt> must
+locate its static files in a separate
+<tt class="FILENAME">/opt/&lt;package&gt;</tt> or
+<tt class="FILENAME">/opt/&lt;provider&gt;</tt> directory
+tree, where <tt class="FILENAME">&lt;package&gt;</tt> is a name that
+describes the software package and
+<tt class="FILENAME">&lt;provider&gt;</tt> is the provider's LANANA
+registered name.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS7">Requirements</a></h3><div class="INFORMALTABLE"><p></p><a name="AEN972"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td>&lt;package&gt;</td><td>Static package objects</td></tr><tr><td>&lt;provider&gt;</td><td>LANANA registered provider name</td></tr></tbody></table><p></p></div><p>The directories <tt class="FILENAME">/opt/bin</tt>,
+<tt class="FILENAME">/opt/doc</tt>, <tt class="FILENAME">/opt/include</tt>,
+<tt class="FILENAME">/opt/info</tt>, <tt class="FILENAME">/opt/lib</tt>, and
+<tt class="FILENAME">/opt/man</tt> are reserved for local system
+administrator use.  Packages may provide "front-end" files intended to
+be placed in (by linking or copying) these reserved directories by the
+local system administrator, but must function normally in the absence
+of these reserved directories.</p><p>Programs to be invoked by users must be located in the directory
+<tt class="FILENAME">/opt/&lt;package&gt;/bin</tt> or under the
+<tt class="FILENAME">/opt/&lt;provider&gt;</tt> hierarchy. If the package
+includes UNIX manual pages, they must be located in
+<tt class="FILENAME">/opt/&lt;package&gt;/share/man</tt> or under the
+<tt class="FILENAME">/opt/&lt;provider&gt;</tt> hierarchy, and the same
+substructure as <tt class="FILENAME">/usr/share/man</tt> must be
+used.</p><p>Package files that are variable (change in normal operation)
+must be installed in <tt class="FILENAME">/var/opt</tt>.  See the section
+on <tt class="FILENAME">/var/opt</tt> for more information.</p><p>Host-specific configuration files must be installed in
+<tt class="FILENAME">/etc/opt</tt>.  See the section on
+<tt class="FILENAME">/etc</tt> for more information.</p><p>No other package files may exist outside the
+<tt class="FILENAME">/opt</tt>, <tt class="FILENAME">/var/opt</tt>, and
+<tt class="FILENAME">/etc/opt</tt> hierarchies except for those package
+files that must reside in specific locations within the filesystem
+tree in order to function properly.  For example, device lock files
+must be placed in <tt class="FILENAME">/var/lock</tt> and devices must be
+located in <tt class="FILENAME">/dev</tt>.</p><p>Distributions may install software in <tt class="FILENAME">/opt</tt>,
+but must not modify or delete software installed by the local system
+administrator without the assent of the local system
+administrator.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>The use of <tt class="FILENAME">/opt</tt> for add-on software is a
+well-established practice in the UNIX community.  The System V
+Application Binary Interface [AT&amp;T 1990], based on the System V
+Interface Definition (Third Edition), provides for an
+<tt class="FILENAME">/opt</tt> structure very similar to the one defined
+here.</p><p>The Intel Binary Compatibility Standard v. 2 (iBCS2) also
+provides a similar structure for <tt class="FILENAME">/opt</tt>.</p><p>Generally, all data required to support a package on a system
+must be present within <tt class="FILENAME">/opt/&lt;package&gt;</tt>,
+including files intended to be copied into
+<tt class="FILENAME">/etc/opt/&lt;package&gt;</tt> and
+<tt class="FILENAME">/var/opt/&lt;package&gt;</tt> as well as reserved
+directories in <tt class="FILENAME">/opt</tt>.</p><p>The minor restrictions on distributions using
+<tt class="FILENAME">/opt</tt> are necessary because conflicts are possible
+between distribution-installed and locally-installed software,
+especially in the case of fixed pathnames found in some binary
+software.</p><p>The structure of the directories below
+<tt class="FILENAME">/opt/&lt;provider&gt;</tt> is left up to the packager
+of the software, though it is recommended that packages are installed
+in <tt class="FILENAME">/opt/&lt;provider&gt;/&lt;package&gt;</tt> and
+follow a similar structure to the guidelines for
+<tt class="FILENAME">/opt/package</tt>. A valid reason for diverging from
+this structure is for support packages which may have files installed
+in <tt class="FILENAME">/opt/&lt;provider&gt;/lib</tt> or
+<tt class="FILENAME">/opt/&lt;provider&gt;/bin</tt>.</p></td></tr></tbody></table></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="ROOTHOMEDIRECTORYFORTHEROOTUSER">/root : Home directory for the root user (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE15">Purpose</a></h3><p>The root account's home directory may be determined by developer
+or local preference, but this is the recommended default
+location.
+
+<a name="AEN1037" href="#FTN.AEN1037"><span class="footnote">[17]</span></a></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="SBINSYSTEMBINARIES">/sbin : System binaries</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE16">Purpose</a></h3><p>Utilities used for system administration (and other root-only
+commands) are stored in <tt class="FILENAME">/sbin</tt>,
+<tt class="FILENAME">/usr/sbin</tt>, and
+<tt class="FILENAME">/usr/local/sbin</tt>.  <tt class="FILENAME">/sbin</tt>
+contains binaries essential for booting, restoring, recovering, and/or
+repairing the system in addition to the binaries in
+<tt class="FILENAME">/bin</tt>.
+
+<a name="AEN1051" href="#FTN.AEN1051"><span class="footnote">[18]</span></a> Programs executed after
+<tt class="FILENAME">/usr</tt> is known to be mounted (when there are no
+problems) are generally placed into <tt class="FILENAME">/usr/sbin</tt>.
+Locally-installed system administration programs should be placed into
+<tt class="FILENAME">/usr/local/sbin</tt>.
+
+<a name="AEN1058" href="#FTN.AEN1058"><span class="footnote">[19]</span></a></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS8">Requirements</a></h3><p>The following commands, or symbolic links to commands, are
+required in <tt class="FILENAME">/sbin</tt>.</p><div class="INFORMALTABLE"><p></p><a name="AEN1077"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody><tr><td><b class="COMMAND">shutdown</b></td><td>Command to bring the system down.</td></tr></tbody></table><p></p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS8">Specific Options</a></h3><p>The following files, or symbolic links to files, must be in
+<tt class="FILENAME">/sbin</tt> if the corresponding subsystem is
+installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN1092"></a><table class="CALSTABLE" border="0" frame="void"><col title="C1" width="1*"><col title="C2" width="1*"><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">fastboot</tt></td><td>Reboot the system without checking the disks (optional)</td></tr><tr><td><tt class="FILENAME">fasthalt</tt></td><td>Stop the system without checking the disks (optional)</td></tr><tr><td><tt class="FILENAME">fdisk</tt></td><td>Partition table manipulator (optional)</td></tr><tr><td><tt class="FILENAME">fsck</tt></td><td>File system check and repair utility (optional)</td></tr><tr><td><tt class="FILENAME">fsck.*</tt></td><td>File system check and repair utility for a specific filesystem (optional)</td></tr><tr><td><tt class="FILENAME">getty</tt></td><td>The getty program (optional)</td></tr><tr><td><tt class="FILENAME">halt</tt></td><td>Command to stop the system (optional)</td></tr><tr><td><tt class="FILENAME">ifconfig</tt></td><td>Configure a network interface (optional)</td></tr><tr><td><tt class="FILENAME">init</tt></td><td>Initial process (optional)</td></tr><tr><td><tt class="FILENAME">mkfs</tt></td><td>Command to build a filesystem (optional)</td></tr><tr><td><tt class="FILENAME">mkfs.*</tt></td><td>Command to build a specific filesystem (optional)</td></tr><tr><td><tt class="FILENAME">mkswap</tt></td><td>Command to set up a swap area (optional)</td></tr><tr><td><tt class="FILENAME">reboot</tt></td><td>Command to reboot the system (optional)</td></tr><tr><td><tt class="FILENAME">route</tt></td><td>IP routing table utility (optional)</td></tr><tr><td><tt class="FILENAME">swapon</tt></td><td>Enable paging and swapping (optional)</td></tr><tr><td><tt class="FILENAME">swapoff</tt></td><td>Disable paging and swapping (optional)</td></tr><tr><td><tt class="FILENAME">update</tt></td><td>Daemon to periodically flush filesystem buffers (optional)</td></tr></tbody></table><p></p></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="SRVDATAFORSERVICESPROVIDEDBYSYSTEM">/srv : Data for services provided by this system</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE16A">Purpose</a></h3><p><tt class="FILENAME">/srv</tt> contains site-specific data which is
+served by this system.
+
+</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>This main purpose of specifying this is so that users may find the
+location of the data files for particular service, and so that
+services which require a single tree for readonly data, writable data
+and scripts (such as cgi scripts) can be reasonably placed. Data that
+is only of interest to a specific user should go in that users' home
+directory.</p><p>The methodology used to name subdirectories of
+<tt class="FILENAME">/srv</tt> is unspecified as there is currently no
+consensus on how this should be done.  One method for structuring data
+under <tt class="FILENAME">/srv</tt> is by protocol,
+eg. <tt class="FILENAME">ftp</tt>, <tt class="FILENAME">rsync</tt>,
+<tt class="FILENAME">www</tt>, and <tt class="FILENAME">cvs</tt>. On large
+systems it can be useful to structure <tt class="FILENAME">/srv</tt> by
+administrative context, such as <tt class="FILENAME">/srv/physics/www</tt>,
+<tt class="FILENAME">/srv/compsci/cvs</tt>, etc. This setup will differ
+from host to host. Therefore, no program should rely on a specific
+subdirectory structure of <tt class="FILENAME">/srv</tt> existing or data
+necessarily being stored in <tt class="FILENAME">/srv</tt>.  However
+<tt class="FILENAME">/srv</tt> should always exist on FHS compliant systems
+and should be used as the default location for such data.</p><p>Distributions must take care not to remove locally placed files in
+these directories without administrator permission.
+<a name="AEN1192" href="#FTN.AEN1192"><span class="footnote">[20]</span></a></p></td></tr></tbody></table></div>
+<p></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="TMPTEMPORARYFILES">/tmp : Temporary files</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE17">Purpose</a></h3><p>The <tt class="FILENAME">/tmp</tt> directory must be made available
+for programs that require temporary files.</p><p>Programs must not assume that any files or directories in
+<tt class="FILENAME">/tmp</tt> are preserved between invocations of the
+program.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>IEEE standard P1003.2 (POSIX, part 2) makes requirements that
+are similar to the above section.</p><p>Although data stored in <tt class="FILENAME">/tmp</tt> may be deleted
+in a site-specific manner, it is recommended that files and
+directories located in <tt class="FILENAME">/tmp</tt> be deleted whenever
+the system is booted.</p><p>FHS added this recommendation on the basis of historical
+precedent and common practice, but did not make it a requirement
+because system administration is not within the scope of this
+standard.
+</p></td></tr></tbody></table></div></div></div></div><div class="CHAPTER"><hr><h1><a name="THEUSRHIERARCHY"></a>Chapter 4. The /usr Hierarchy</h1><div class="SECTION"><h2 class="SECTION"><a name="PURPOSE18">Purpose</a></h2><p><tt class="FILENAME">/usr</tt> is the second major section of the
+filesystem.  <tt class="FILENAME">/usr</tt> is shareable, read-only data.
+That means that <tt class="FILENAME">/usr</tt> should be shareable between
+various FHS-compliant hosts and must not be written to.  Any
+information that is host-specific or varies with time is stored
+elsewhere.</p><p>Large software packages must not use a direct subdirectory under
+the <tt class="FILENAME">/usr</tt> hierarchy.</p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="REQUIREMENTS9">Requirements</a></h2><p>The following directories, or symbolic links to directories, are
+required in <tt class="FILENAME">/usr</tt>.</p><div class="INFORMALTABLE"><p></p><a name="AEN1223"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">bin</tt></td><td>Most user commands</td></tr><tr><td><tt class="FILENAME">include</tt></td><td>Header files included by C programs</td></tr><tr><td><tt class="FILENAME">lib</tt></td><td>Libraries</td></tr><tr><td><tt class="FILENAME">local</tt></td><td>Local hierarchy (empty after main installation)</td></tr><tr><td><tt class="FILENAME">sbin</tt></td><td>Non-vital system binaries</td></tr><tr><td><tt class="FILENAME">share</tt></td><td>Architecture-independent data</td></tr></tbody></table><p></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="SPECIFICOPTIONS9">Specific Options</a></h2><div class="INFORMALTABLE"><p></p><a name="AEN1256"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">X11R6</tt></td><td>XWindow System, version 11 release 6 (optional)</td></tr><tr><td><tt class="FILENAME">games</tt></td><td>Games and educational binaries (optional)</td></tr><tr><td><tt class="FILENAME">lib&lt;qual&gt;</tt></td><td>Alternate Format Libraries (optional)</td></tr><tr><td><tt class="FILENAME">src</tt></td><td>Source code (optional)</td></tr></tbody></table><p></p></div><p>An exception is made for the X Window System because of
+considerable precedent and widely-accepted practice.</p><p>The following symbolic links to directories may be present. This
+possibility is based on the need to preserve compatibility with older
+systems until all implementations can be assumed to use the
+<tt class="FILENAME">/var</tt> hierarchy.</p><table bgcolor="#e0e0e0" border="0" width="100%"><tbody><tr><td><pre class="SCREEN">    /usr/spool -&gt; /var/spool
+    /usr/tmp -&gt; /var/tmp
+    /usr/spool/locks -&gt; /var/lock</pre></td></tr></tbody></table><p>Once a system no longer requires any one of the above symbolic links,
+the link may be removed, if desired.</p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="USRX11R6XWINDOWSYSTEMVERSION11REL">/usr/X11R6 : X Window System, Version 11 Release 6 (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE19">Purpose</a></h3><p>This hierarchy is reserved for the X Window System, version 11
+release 6, and related files.</p><p>To simplify matters and make XFree86 more compatible with the X
+Window System on other systems, the following symbolic links must be
+present if <tt class="FILENAME">/usr/X11R6</tt> exists:</p><table bgcolor="#e0e0e0" border="0" width="100%"><tbody><tr><td><pre class="SCREEN">    /usr/bin/X11 -&gt; /usr/X11R6/bin
+    /usr/lib/X11 -&gt; /usr/X11R6/lib/X11
+    /usr/include/X11 -&gt; /usr/X11R6/include/X11</pre></td></tr></tbody></table><p>In general, software must not be installed or managed via the above
+symbolic links.  They are intended for utilization by users only.  The
+difficulty is related to the release version of the X Window System —
+in transitional periods, it is impossible to know what release of X11 is
+in use.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS10">Specific Options</a></h3><p>Host-specific data in <tt class="FILENAME">/usr/X11R6/lib/X11</tt> should be interpreted
+as a demonstration file.  Applications requiring information about the
+current host must reference a configuration file in <tt class="FILENAME">/etc/X11</tt>,
+which may be linked to a file in <tt class="FILENAME">/usr/X11R6/lib</tt>.
+
+<a name="AEN1299" href="#FTN.AEN1299"><span class="footnote">[21]</span></a></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="USRBINMOSTUSERCOMMANDS">/usr/bin : Most user commands</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE20">Purpose</a></h3><p>This is the primary directory of executable commands on the
+system.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS11">Specific Options</a></h3><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/usr/bin</tt>, if the corresponding
+subsystem is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN1313"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">mh</tt></td><td>Commands for the MH mail handling system (optional)</td></tr></tbody></table><p></p></div><p><tt class="FILENAME">/usr/bin/X11</tt> must be a symlink to
+<tt class="FILENAME">/usr/X11R6/bin</tt> if the latter exists.</p><p>The following files, or symbolic links to files, must be in
+<tt class="FILENAME">/usr/bin</tt>, if the corresponding subsystem is
+installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN1329"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody><tr><td><b class="COMMAND">perl</b></td><td>The Practical Extraction and Report Language (optional)</td></tr><tr><td><b class="COMMAND">python</b></td><td>The Python interpreted language (optional)</td></tr><tr><td><b class="COMMAND">tclsh</b></td><td>Simple shell containing Tcl interpreter (optional)</td></tr><tr><td><b class="COMMAND">wish</b></td><td>Simple Tcl/Tk windowing shell (optional)</td></tr><tr><td><b class="COMMAND">expect</b></td><td>Program for interactive dialog (optional)</td></tr></tbody></table><p></p></div><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>Because shell script interpreters (invoked with
+<tt class="FILENAME">#!&lt;path&gt;</tt> on the first line of a shell
+script) cannot rely on a path, it is advantageous to standardize their
+locations.  The Bourne shell and C-shell interpreters are already
+fixed in <tt class="FILENAME">/bin</tt>, but Perl, Python, and Tcl are
+often found in many different places.  They may be symlinks to the
+physical location of the shell interpreters.
+</p></td></tr></tbody></table></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="USRINCLUDEDIRECTORYFORSTANDARDINCLU">/usr/include : Directory for standard include files.</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE21">Purpose</a></h3><p>This is where all of the system's general-use include files for the C
+programming language should be placed.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS12">Specific Options</a></h3><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/usr/include</tt>, if the corresponding
+subsystem is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN1370"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td>bsd</td><td>BSD compatibility include files (optional)</td></tr></tbody></table><p></p></div><p>The symbolic link <tt class="FILENAME">/usr/include/X11</tt> must
+link to <tt class="FILENAME">/usr/X11R6/include/X11</tt> if the latter
+exists.</p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="USRLIBLIBRARIESFORPROGRAMMINGANDPA">/usr/lib : Libraries for programming and packages</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE22">Purpose</a></h3><p><tt class="FILENAME">/usr/lib</tt> includes object files, libraries,
+and internal binaries that are not intended to be executed directly by
+users or shell scripts.
+<a name="AEN1389" href="#FTN.AEN1389"><span class="footnote">[22]</span></a></p><p>Applications may use a single subdirectory under
+<tt class="FILENAME">/usr/lib</tt>.  If an application uses a subdirectory,
+all architecture-dependent data exclusively used by the application
+must be placed within that subdirectory.  
+
+<a name="AEN1394" href="#FTN.AEN1394"><span class="footnote">[23]</span></a></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS13">Specific Options</a></h3><p>For historical reasons, <b class="COMMAND">/usr/lib/sendmail</b>
+must be a symbolic link to <b class="COMMAND">/usr/sbin/sendmail</b> if
+the latter exists.
+
+<a name="AEN1402" href="#FTN.AEN1402"><span class="footnote">[24]</span></a></p><p>If <tt class="FILENAME">/lib/X11</tt> exists,
+<tt class="FILENAME">/usr/lib/X11</tt> must be a symbolic link to
+<tt class="FILENAME">/lib/X11</tt>, or to whatever
+<tt class="FILENAME">/lib/X11</tt> is a symbolic link to.
+
+<a name="AEN1418" href="#FTN.AEN1418"><span class="footnote">[25]</span></a></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="USRLIBLTQUALGTALTERNATEFORMATLIBRARI">/usr/lib&lt;qual&gt; : Alternate format libraries (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE23">Purpose</a></h3><p><tt class="FILENAME">/usr/lib&lt;qual&gt;</tt> performs the same role as <tt class="FILENAME">/usr/lib</tt> for an
+alternate binary format, except that the symbolic links
+<tt class="FILENAME">/usr/lib&lt;qual&gt;/sendmail</tt> and <tt class="FILENAME">/usr/lib&lt;qual&gt;/X11</tt> are not required.
+
+<a name="AEN1435" href="#FTN.AEN1435"><span class="footnote">[26]</span></a></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="USRLOCALLOCALHIERARCHY">/usr/local : Local hierarchy</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE24">Purpose</a></h4><p>The <tt class="FILENAME">/usr/local</tt> hierarchy is for use by the
+system administrator when installing software locally.  It needs to be
+safe from being overwritten when the system software is updated.  It
+may be used for programs and data that are shareable amongst a group
+of hosts, but not found in <tt class="FILENAME">/usr</tt>.</p><p>Locally installed software must be placed within
+<tt class="FILENAME">/usr/local</tt> rather than <tt class="FILENAME">/usr</tt>
+unless it is being installed to replace or upgrade software in
+<tt class="FILENAME">/usr</tt>.
+
+<a name="AEN1450" href="#FTN.AEN1450"><span class="footnote">[27]</span></a></p></div><div class="SECTION"><hr><h4 class="SECTION"><a name="REQUIREMENTS10">Requirements</a></h4><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/usr/local</tt></p><div class="INFORMALTABLE"><p></p><a name="AEN1460"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">bin</tt></td><td>Local binaries</td></tr><tr><td><tt class="FILENAME">etc</tt></td><td>Host-specific system configuration for local binaries</td></tr><tr><td><tt class="FILENAME">games</tt></td><td>Local game binaries</td></tr><tr><td><tt class="FILENAME">include</tt></td><td>Local C header files</td></tr><tr><td><tt class="FILENAME">lib</tt></td><td>Local libraries</td></tr><tr><td><tt class="FILENAME">man</tt></td><td>Local online manuals</td></tr><tr><td><tt class="FILENAME">sbin</tt></td><td>Local system binaries</td></tr><tr><td><tt class="FILENAME">share</tt></td><td>Local architecture-independent hierarchy</td></tr><tr><td><tt class="FILENAME">src</tt></td><td>Local source code</td></tr></tbody></table><p></p></div><p>No other directories, except those listed below, may be in
+<tt class="FILENAME">/usr/local</tt> after first installing a FHS-compliant
+system.</p></div><div class="SECTION"><hr><h4 class="SECTION"><a name="SPECIFICOPTIONS14">Specific Options</a></h4><p>If directories <tt class="FILENAME">/lib&lt;qual&gt;</tt> or
+<tt class="FILENAME">/usr/lib&lt;qual&gt;</tt> exist, the equivalent
+directories must also exist in <tt class="FILENAME">/usr/local</tt>.</p><p><tt class="FILENAME">/usr/local/etc</tt> may be a symbolic link to
+<tt class="FILENAME">/etc/local</tt>.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>The consistency of <tt class="FILENAME">/usr/local/etc</tt> is
+beneficial to installers, and is already used in other systems.  As
+all of <tt class="FILENAME">/usr/local</tt> needs to be backed up to
+reproduce a system, it introduces no additional maintenance overhead,
+but a symlink to <tt class="FILENAME">/etc/local</tt> is suitable if
+systems want alltheir configuration under one hierarchy.</p><p>Note that <tt class="FILENAME">/usr/etc</tt> is still not allowed: programs
+in <tt class="FILENAME">/usr</tt> should place configuration files in
+<tt class="FILENAME">/etc</tt>.</p></td></tr></tbody></table></div></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="USRLOCALSHARE1">/usr/local/share</a></h2><p>The requirements for the contents of this directory are the same
+as <tt class="FILENAME">/usr/share</tt>.  The only additional constraint is
+that <tt class="FILENAME">/usr/local/share/man</tt> and
+<tt class="FILENAME">/usr/local/man</tt> directories must be synonomous
+(usually this means that one of them must be a symbolic link).
+
+<a name="AEN1530" href="#FTN.AEN1530"><span class="footnote">[28]</span></a></p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="USRSBINNONESSENTIALSTANDARDSYSTEMBI">/usr/sbin : Non-essential standard system binaries</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE25">Purpose</a></h3><p>This directory contains any non-essential binaries used
+exclusively by the system administrator.  System administration
+programs that are required for system repair, system recovery,
+mounting <tt class="FILENAME">/usr</tt>, or other essential functions must
+be placed in <tt class="FILENAME">/sbin</tt> instead.
+
+<a name="AEN1540" href="#FTN.AEN1540"><span class="footnote">[29]</span></a></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="USRSHAREARCHITECTUREINDEPENDENTDATA">/usr/share : Architecture-independent data</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE26">Purpose</a></h3><p>The <tt class="FILENAME">/usr/share</tt> hierarchy is for all
+read-only architecture independent data files.
+
+<a name="AEN1550" href="#FTN.AEN1550"><span class="footnote">[30]</span></a>
+</p><p>This hierarchy is intended to be shareable among all
+architecture platforms of a given OS; thus, for example, a site with
+i386, Alpha, and PPC platforms might maintain a single
+<tt class="FILENAME">/usr/share</tt> directory that is centrally-mounted.
+Note, however, that <tt class="FILENAME">/usr/share</tt> is generally not
+intended to be shared by different OSes or by different releases of
+the same OS.</p><p>Any program or package which contains or requires data that
+doesn't need to be modified should store that data in
+<tt class="FILENAME">/usr/share</tt> (or
+<tt class="FILENAME">/usr/local/share</tt>, if installed locally).  It is
+recommended that a subdirectory be used in
+<tt class="FILENAME">/usr/share</tt> for this purpose.</p><p>Game data stored in <tt class="FILENAME">/usr/share/games</tt> must
+be purely static data.  Any modifiable files, such as score files,
+game play logs, and so forth, should be placed in
+<tt class="FILENAME">/var/games</tt>.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS11">Requirements</a></h3><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/usr/share</tt></p><div class="INFORMALTABLE"><p></p><a name="AEN1573"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">man</tt></td><td>Online manuals</td></tr><tr><td><tt class="FILENAME">misc</tt></td><td>Miscellaneous architecture-independent data</td></tr></tbody></table><p></p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS15">Specific Options</a></h3><p>The following directories, or symbolic links to directories, must be in <tt class="FILENAME">/usr/share</tt>, if the corresponding
+subsystem is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN1592"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">dict</tt></td><td>Word lists (optional)</td></tr><tr><td><tt class="FILENAME">doc</tt></td><td>Miscellaneous documentation (optional)</td></tr><tr><td><tt class="FILENAME">games</tt></td><td>Static data files for /usr/games (optional)</td></tr><tr><td><tt class="FILENAME">info</tt></td><td>GNU Info system s primary directory (optional)</td></tr><tr><td><tt class="FILENAME">locale</tt></td><td>Locale information (optional)</td></tr><tr><td><tt class="FILENAME">nls</tt></td><td>Message catalogs for Native language support (optional)</td></tr><tr><td><tt class="FILENAME">sgml</tt></td><td>SGML data (optional)</td></tr><tr><td><tt class="FILENAME">terminfo</tt></td><td>Directories for terminfo database (optional)</td></tr><tr><td><tt class="FILENAME">tmac</tt></td><td>troff macros not distributed with groff (optional)</td></tr><tr><td><tt class="FILENAME">xml</tt></td><td>XML data (optional)</td></tr><tr><td><tt class="FILENAME">zoneinfo</tt></td><td>Timezone information and configuration (optional)</td></tr></tbody></table><p></p></div><p>It is recommended that application-specific,
+architecture-independent directories be placed here.  Such directories
+include <b class="COMMAND">groff</b>, <b class="COMMAND">perl</b>,
+<b class="COMMAND">ghostscript</b>, <b class="COMMAND">texmf</b>, and
+<b class="COMMAND">kbd</b> (Linux) or <b class="COMMAND">syscons</b>
+(BSD).  They may, however, be placed in <tt class="FILENAME">/usr/lib</tt>
+for backwards compatibility, at the distributor's discretion.
+Similarly, a <tt class="FILENAME">/usr/lib/games</tt> hierarchy may be used
+in addition to the <tt class="FILENAME">/usr/share/games</tt> hierarchy if
+the distributor wishes to place some game data there.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="USRSHAREDICTWORDLISTS">/usr/share/dict : Word lists (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE27">Purpose</a></h4><p>This directory is the home for word lists on the system;
+Traditionally this directory contains only the English
+<tt class="FILENAME">words</tt> file, which is used by
+<b class="COMMAND">look(1)</b> and various spelling programs.
+<tt class="FILENAME">words</tt> may use either American or British
+spelling.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>The reason that only word lists are located here is that they
+are the only files common to all spell checkers.</p></td></tr></tbody></table></div></div><div class="SECTION"><hr><h4 class="SECTION"><a name="SPECIFICOPTIONS16">Specific Options</a></h4><p>The following files, or symbolic links to files, must be in
+<tt class="FILENAME">/usr/share/dict</tt>, if the corresponding subsystem
+is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN1668"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th><tt class="FILENAME">File</tt></th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">words</tt></td><td>List of English words (optional)</td></tr></tbody></table><p></p></div><p>Sites that require both American and British spelling may link
+<tt class="FILENAME">words</tt> to
+<tt class="FILENAME">­/usr/share/dict/american-english</tt> or
+<tt class="FILENAME">­/usr/share/dict/british-english</tt>.</p><p>Word lists for other languages may be added using the English
+name for that language, e.g.,
+<tt class="FILENAME">/usr/share/dict/french</tt>,
+<tt class="FILENAME">/usr/share/dict/danish</tt>, etc.  These should, if
+possible, use an ISO 8859 character set which is appropriate for the
+language in question; if possible the Latin1 (ISO 8859-1) character
+set should be used (this is often not possible).</p><p>Other word lists must be included here, if present.</p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="USRSHAREMANMANUALPAGES">/usr/share/man : Manual pages</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE28">Purpose</a></h4><p>This section details the organization for manual pages
+throughout the system, including <tt class="FILENAME">/usr/share/man</tt>.
+Also refer to the section on
+<tt class="FILENAME">/var/cache/man</tt>.</p><p>The primary <tt class="FILENAME">&lt;mandir&gt;</tt> of the system is
+<tt class="FILENAME">/usr/share/man</tt>.
+<tt class="FILENAME">/usr/share/man</tt> contains manual information for
+commands and data under the <tt class="FILENAME">/</tt> and
+<tt class="FILENAME">/usr</tt> filesystems.
+
+<a name="AEN1701" href="#FTN.AEN1701"><span class="footnote">[31]</span></a></p><p>Manual pages are stored in
+<tt class="FILENAME">&lt;mandir&gt;/&lt;locale&gt;/man&lt;section&gt;/&lt;arch&gt;</tt>.
+An explanation of <tt class="FILENAME">&lt;mandir&gt;</tt>,
+<tt class="FILENAME">&lt;locale&gt;</tt>,
+<tt class="FILENAME">&lt;section&gt;</tt>, and
+<tt class="FILENAME">&lt;arch&gt;</tt> is given below.</p><p>A description of each section follows:</p><p></p><ul><li style="list-style-type: disc;"><p><tt class="FILENAME">man1</tt>: User programs
+Manual pages that describe publicly accessible commands are contained in
+this chapter.  Most program documentation that a user will need to use
+is located here.</p></li><li style="list-style-type: disc;"><p><tt class="FILENAME">man2</tt>: System calls
+This section describes all of the system calls (requests for the
+kernel to perform operations).</p></li><li style="list-style-type: disc;"><p><tt class="FILENAME">man3</tt>: Library functions and subroutines
+Section 3 describes program library routines that are not direct calls
+to kernel services.  This and chapter 2 are only really of interest to
+programmers.</p></li><li style="list-style-type: disc;"><p><tt class="FILENAME">man4</tt>: Special files
+Section 4 describes the special files, related driver functions, and
+networking support available in the system.  Typically, this includes
+the device files found in <tt class="FILENAME">/dev</tt> and the kernel interface to
+networking protocol support.</p></li><li style="list-style-type: disc;"><p><tt class="FILENAME">man5</tt>: File formats
+The formats for many data files are documented in the
+section 5.  This includes various include files, program output files,
+and system files.</p></li><li style="list-style-type: disc;"><p><tt class="FILENAME">man6</tt>: Games
+This chapter documents games, demos, and generally trivial programs.
+Different people have various notions about how essential this is.</p></li><li style="list-style-type: disc;"><p><tt class="FILENAME">man7</tt>: Miscellaneous
+Manual pages that are difficult to classify are designated as being
+section 7.  The troff and other text processing macro packages are found
+here.</p></li><li style="list-style-type: disc;"><p><tt class="FILENAME">man8</tt>: System administration
+Programs used by system administrators for system operation and
+maintenance are documented here.  Some of these programs are also
+occasionally useful for normal users.</p></li></ul></div><div class="SECTION"><hr><h4 class="SECTION"><a name="SPECIFICOPTIONS17">Specific Options</a></h4><p>The following directories, or symbolic links to directories,
+must be in
+<tt class="FILENAME">/usr/share/&lt;mandir&gt;/&lt;locale&gt;</tt>, unless
+they are empty:
+
+<a name="AEN1741" href="#FTN.AEN1741"><span class="footnote">[32]</span></a></p><div class="INFORMALTABLE"><p></p><a name="AEN1745"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">man1</tt></td><td>User programs (optional)</td></tr><tr><td><tt class="FILENAME">man2</tt></td><td>System calls (optional)</td></tr><tr><td><tt class="FILENAME">man3</tt></td><td>Library calls (optional)</td></tr><tr><td><tt class="FILENAME">man4</tt></td><td>Special files (optional)</td></tr><tr><td><tt class="FILENAME">man5</tt></td><td>File formats (optional)</td></tr><tr><td><tt class="FILENAME">man6</tt></td><td>Games (optional)</td></tr><tr><td><tt class="FILENAME">man7</tt></td><td>Miscellaneous (optional)</td></tr><tr><td><tt class="FILENAME">man8</tt></td><td>System administration (optional)</td></tr></tbody></table><p></p></div><p>The component <tt class="FILENAME">&lt;section&gt;</tt> describes the
+manual section.</p><p>Provisions must be made in the structure of
+<tt class="FILENAME">/usr/share/man</tt> to support manual pages which are
+written in different (or multiple) languages.  These provisions must
+take into account the storage and reference of these manual pages.
+Relevant factors include language (including geographical-based
+differences), and character code set.</p><p>This naming of language subdirectories of
+<tt class="FILENAME">/usr/share/man</tt> is based on Appendix E of the
+POSIX 1003.1 standard which describes the locale identification string
+— the most well-accepted method to describe a cultural
+environment.  The <tt class="FILENAME">&lt;locale&gt;</tt> string
+is:</p><p><tt class="FILENAME">&lt;language&gt;[_&lt;territory&gt;][.&lt;character-set&gt;][,&lt;version&gt;]</tt></p><p>The <tt class="FILENAME">&lt;language&gt;</tt> field must be taken
+from ISO 639 (a code for the representation of names of languages).
+It must be two characters wide and specified with lowercase letters
+only.</p><p>The <tt class="FILENAME">&lt;territory&gt;</tt> field must be the
+two-letter code of ISO 3166 (a specification of representations of
+countries), if possible.  (Most people are familiar with the
+two-letter codes used for the country codes in email addresses.) It
+must be two characters wide and specified with uppercase letters
+only.
+<a name="AEN1797" href="#FTN.AEN1797"><span class="footnote">[33]</span></a></p><p>The <tt class="FILENAME">&lt;character-set&gt;</tt> field must
+represent the standard describing the character set.  If the
+<tt class="FILENAME">­&lt;character-set&gt;</tt> field is just a
+numeric specification, the number represents the number of the
+international standard describing the character set.  It is
+recommended that this be a numeric representation if possible (ISO
+standards, especially), not include additional punctuation symbols,
+and that any letters be in lowercase.</p><p>A parameter specifying a <tt class="FILENAME">&lt;version&gt;</tt> of
+the profile may be placed after the
+<tt class="FILENAME">­&lt;character-set&gt;</tt> field, delimited by a
+comma.  This may be used to discriminate between different cultural
+needs; for instance, dictionary order versus a more systems-oriented
+collating order.  This standard recommends not using the
+<tt class="FILENAME">&lt;version&gt;</tt> field, unless it is
+necessary.</p><p>Systems which use a unique language and code set for all manual
+pages may omit the <tt class="FILENAME">&lt;locale&gt;</tt> substring and
+store all manual pages in <tt class="FILENAME">&lt;mandir&gt;</tt>.  For
+example, systems which only have English manual pages coded with
+ASCII, may store manual pages (the
+<tt class="FILENAME">man&lt;section&gt;</tt> directories) directly in
+<tt class="FILENAME">/usr/share/man</tt>.  (That is the traditional
+circumstance and arrangement, in fact.)</p><p>Countries for which there is a well-accepted standard character
+code set may omit the <tt class="FILENAME">­&lt;character-set&gt;</tt>
+field, but it is strongly recommended that it be included, especially
+for countries with several competing standards.</p><p>Various examples:</p><div class="INFORMALTABLE"><p></p><a name="AEN1814"></a><table class="CALSTABLE" border="0" frame="void"><col title="C1" width="1*"><col title="C2" width="1*"><col title="C3" width="1*"><col title="C4" width="1*"><thead><tr><th align="LEFT">Language</th><th align="LEFT">Territory</th><th align="LEFT">Character Set</th><th align="LEFT">Directory</th></tr></thead><tbody><tr><td align="LEFT">English</td><td align="LEFT">—</td><td align="LEFT">ASCII</td><td align="LEFT">/usr/share/man/en</td></tr><tr><td align="LEFT">English</td><td align="LEFT">United Kingdom</td><td align="LEFT">ISO 8859-15</td><td align="LEFT">/usr/share/man/en_GB</td></tr><tr><td align="LEFT">English</td><td align="LEFT">United States</td><td align="LEFT">ASCII</td><td align="LEFT">/usr/share/man/en_US</td></tr><tr><td align="LEFT">French</td><td align="LEFT">Canada</td><td align="LEFT">ISO 8859-1</td><td align="LEFT">/usr/share/man/fr_CA</td></tr><tr><td align="LEFT">French</td><td align="LEFT">France</td><td align="LEFT">ISO 8859-1</td><td align="LEFT">/usr/share/man/fr_FR</td></tr><tr><td align="LEFT">German</td><td align="LEFT">Germany</td><td align="LEFT">ISO 646</td><td align="LEFT">/usr/share/man/de_DE.646</td></tr><tr><td align="LEFT">German</td><td align="LEFT">Germany</td><td align="LEFT">ISO 6937</td><td align="LEFT">/usr/share/man/de_DE.6937</td></tr><tr><td align="LEFT">German</td><td align="LEFT">Germany</td><td align="LEFT">ISO 8859-1</td><td align="LEFT">/usr/share/man/de_DE.88591</td></tr><tr><td align="LEFT">German</td><td align="LEFT">Switzerland</td><td align="LEFT">ISO 646</td><td align="LEFT">/usr/share/man/de_CH.646</td></tr><tr><td align="LEFT">Japanese</td><td align="LEFT">Japan</td><td align="LEFT">JIS</td><td align="LEFT">/usr/share/man/ja_JP.jis</td></tr><tr><td align="LEFT">Japanese</td><td align="LEFT">Japan</td><td align="LEFT">SJIS</td><td align="LEFT">/usr/share/man/ja_JP.sjis</td></tr><tr><td align="LEFT">Japanese</td><td align="LEFT">Japan</td><td align="LEFT">UJIS (or EUC-J)</td><td align="LEFT">/usr/share/man/ja_JP.ujis</td></tr></tbody></table><p></p></div><p>Similarly, provision must be made for manual pages which are
+architecture-dependent, such as documentation on device-drivers or
+low-level system administration commands.  These must be placed under
+an <tt class="FILENAME">&lt;arch&gt;</tt> directory in the appropriate
+<tt class="FILENAME">man&lt;section&gt;</tt> directory; for example, a man
+page for the i386 ctrlaltdel(8) command might be placed in
+<tt class="FILENAME">/usr/share/man/&lt;locale&gt;/man8/i386/ctrlaltdel.8</tt>.</p><p>Manual pages for commands and data under
+<tt class="FILENAME">/usr/local</tt> are stored in
+<tt class="FILENAME">/usr/local/man</tt>.  Manual pages for X11R6 are
+stored in <tt class="FILENAME">/usr/X11R6/man</tt>.  It follows that all
+manual page hierarchies in the system must have the same structure as
+<tt class="FILENAME">/usr/share/man</tt>.</p><p>The cat page sections (<tt class="FILENAME">cat&lt;section&gt;</tt>)
+containing formatted manual page entries are also found within
+subdirectories of <tt class="FILENAME">&lt;mandir&gt;/&lt;locale&gt;</tt>,
+but are not required nor may they be distributed in lieu of nroff
+source manual pages.</p><p>The numbered sections "1" through "8" are traditionally defined.
+In general, the file name for manual pages located within a particular
+section end with <tt class="FILENAME">.&lt;section&gt;</tt>.</p><p>In addition, some large sets of application-specific manual
+pages have an additional suffix appended to the manual page filename.
+For example, the MH mail handling system manual pages must have
+<tt class="FILENAME">mh</tt> appended to all MH manuals.  All X Window
+System manual pages must have an <tt class="FILENAME">x</tt> appended to
+the filename.</p><p>The practice of placing various language manual pages in
+appropriate subdirectories of <tt class="FILENAME">/usr/share/man</tt> also
+applies to the other manual page hierarchies, such as
+<tt class="FILENAME">/usr/local/man</tt> and
+<tt class="FILENAME">/usr/X11R6/man</tt>.  (This portion of the standard
+also applies later in the section on the optional
+<tt class="FILENAME">/var/cache/man</tt> structure.)</p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="USRSHAREMISCMISCELLANEOUSARCHITECTURE">/usr/share/misc : Miscellaneous architecture-independent data</a></h3><p>This directory contains miscellaneous architecture-independent
+files which don't require a separate subdirectory under
+<tt class="FILENAME">/usr/share</tt>.</p><div class="SECTION"><hr><h4 class="SECTION"><a name="SPECIFICOPTIONS18">Specific Options</a></h4><p>The following files, or symbolic links to files, must be in
+<tt class="FILENAME">/usr/share/misc</tt>, if the corresponding subsystem
+is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN1917"></a><table class="CALSTABLE" border="0" frame="void"><col title="C1" width="1*"><col title="C2" width="1*"><thead><tr><th>File</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">ascii</tt></td><td>ASCII character set table (optional)</td></tr><tr><td><tt class="FILENAME">magic</tt></td><td>Default list of magic numbers for the file command (optional)</td></tr><tr><td><tt class="FILENAME">termcap</tt></td><td>Terminal capability database (optional)</td></tr><tr><td><tt class="FILENAME">termcap.db</tt></td><td>Terminal capability database (optional)</td></tr></tbody></table><p></p></div><p>Other (application-specific) files may appear here, but a distributor
+may place them in <tt class="FILENAME">/usr/lib</tt> at their discretion.
+<a name="AEN1944" href="#FTN.AEN1944"><span class="footnote">[34]</span></a></p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="USRSHARESGMLSGMLANDXMLDATA">/usr/share/sgml : SGML data (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE29">Purpose</a></h4><p><tt class="FILENAME">/usr/share/sgml</tt> contains
+architecture-independent files used by SGML applications, such
+as ordinary catalogs (not the centralized ones, see
+<tt class="FILENAME">/etc/sgml</tt>), DTDs, entities, or style
+sheets.</p></div><div class="SECTION"><hr><h4 class="SECTION"><a name="SPECIFICOPTIONS19">Specific Options</a></h4><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/usr/share/sgml</tt>, if the corresponding
+subsystem is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN1983"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">docbook</tt></td><td>docbook DTD (optional)</td></tr><tr><td><tt class="FILENAME">tei</tt></td><td>tei DTD (optional)</td></tr><tr><td><tt class="FILENAME">html</tt></td><td>html DTD (optional)</td></tr><tr><td><tt class="FILENAME">mathml</tt></td><td>mathml DTD (optional)</td></tr></tbody></table><p></p></div><p>Other files that are not specific to a given DTD may reside in
+their own subdirectory.</p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="AEN2007">/usr/share/xml : XML data (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="AEN2009">Purpose</a></h4><p><tt class="FILENAME">/usr/share/xml</tt> contains
+architecture-independent files used by XML applications, such
+as ordinary catalogs (not the centralized ones, see
+<tt class="FILENAME">/etc/sgml</tt>), DTDs, entities, or style
+sheets.</p></div><div class="SECTION"><hr><h4 class="SECTION"><a name="AEN2014">Specific Options</a></h4><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/usr/share/xml</tt>, if the corresponding
+subsystem is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN2018"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">docbook</tt></td><td>docbook XML DTD (optional)</td></tr><tr><td><tt class="FILENAME">xhtml</tt></td><td>XHTML DTD (optional)</td></tr><tr><td><tt class="FILENAME">mathml</tt></td><td>MathML DTD (optional)</td></tr></tbody></table><p></p></div></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="USRSRCSOURCECODE">/usr/src : Source code (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE30">Purpose</a></h3><p>Source code may be place placed in this
+subdirectory, only for reference purposes.
+
+<a name="AEN2042" href="#FTN.AEN2042"><span class="footnote">[35]</span></a></p></div></div></div><div class="CHAPTER"><hr><h1><a name="THEVARHIERARCHY"></a>Chapter 5. The /var Hierarchy</h1><div class="SECTION"><h2 class="SECTION"><a name="PURPOSE31">Purpose</a></h2><p><tt class="FILENAME">/var</tt> contains variable data files.  This
+includes spool directories and files, administrative and logging data,
+and transient and temporary files.</p><p>Some portions of <tt class="FILENAME">/var</tt> are not shareable
+between different systems.  For instance,
+<tt class="FILENAME">/var/log</tt>, <tt class="FILENAME">/var/lock</tt>, and
+<tt class="FILENAME">/var/run</tt>.  Other portions may be shared, notably
+<tt class="FILENAME">/var/mail</tt>, <tt class="FILENAME">/var/cache/man</tt>,
+<tt class="FILENAME">/var/cache/fonts</tt>, and
+<tt class="FILENAME">/var/spool/news</tt>.</p><p><tt class="FILENAME">/var</tt> is specified here in order to make it
+possible to mount <tt class="FILENAME">/usr</tt> read-only.  Everything
+that once went into <tt class="FILENAME">/usr</tt> that is written to
+during system operation (as opposed to installation and software
+maintenance) must be in <tt class="FILENAME">/var</tt>.</p><p>If <tt class="FILENAME">/var</tt> cannot be made a separate
+partition, it is often preferable to move <tt class="FILENAME">/var</tt>
+out of the root partition and into the <tt class="FILENAME">/usr</tt>
+partition.  (This is sometimes done to reduce the size of the root
+partition or when space runs low in the root partition.)  However,
+<tt class="FILENAME">/var</tt> must not be linked to
+<tt class="FILENAME">/usr</tt> because this makes separation of
+<tt class="FILENAME">/usr</tt> and <tt class="FILENAME">/var</tt> more difficult
+and is likely to create a naming conflict.  Instead, link
+<tt class="FILENAME">/var</tt> to <tt class="FILENAME">/usr/var</tt>.</p><p>Applications must generally not add directories to the top level
+of <tt class="FILENAME">/var</tt>.  Such directories should only be added
+if they have some system-wide implication, and in consultation with
+the FHS mailing list.</p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="REQUIREMENTS12">Requirements</a></h2><p>The following directories, or symbolic links to directories, are
+required in <tt class="FILENAME">/var</tt>.</p><div class="INFORMALTABLE"><p></p><a name="AEN2080"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">cache</tt></td><td>Application cache data</td></tr><tr><td><tt class="FILENAME">lib</tt></td><td>Variable state information</td></tr><tr><td><tt class="FILENAME">local</tt></td><td>Variable data for /usr/local</td></tr><tr><td><tt class="FILENAME">lock</tt></td><td>Lock files</td></tr><tr><td><tt class="FILENAME">log</tt></td><td>Log files and directories</td></tr><tr><td><tt class="FILENAME">opt</tt></td><td>Variable data for /opt</td></tr><tr><td><tt class="FILENAME">run</tt></td><td>Data relevant to running processes</td></tr><tr><td><tt class="FILENAME">spool</tt></td><td>Application spool data</td></tr><tr><td><tt class="FILENAME">tmp</tt></td><td>Temporary files preserved between system reboots</td></tr></tbody></table><p></p></div><p>Several directories are `reserved' in the sense that they must
+not be used arbitrarily by some new application, since they would
+conflict with historical and/or local practice.  They are:</p><table bgcolor="#e0e0e0" border="0" width="100%"><tbody><tr><td><pre class="SCREEN">    /var/backups
+    /var/cron
+    /var/msgs
+    /var/preserve</pre></td></tr></tbody></table></div><div class="SECTION"><hr><h2 class="SECTION"><a name="SPECIFICOPTIONS20">Specific Options</a></h2><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/var</tt>, if the corresponding subsystem
+is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN2129"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">account</tt></td><td>Process accounting logs (optional)</td></tr><tr><td><tt class="FILENAME">crash</tt></td><td>System crash dumps (optional)</td></tr><tr><td><tt class="FILENAME">games</tt></td><td>Variable game data (optional)</td></tr><tr><td><tt class="FILENAME">mail</tt></td><td>User mailbox files (optional)</td></tr><tr><td><tt class="FILENAME">yp</tt></td><td>Network Information Service (NIS) database files (optional)
+       </td></tr></tbody></table><p></p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARACCOUNTPROCESSACCOUNTINGLOGS">/var/account : Process accounting logs (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE32">Purpose</a></h3><p>This directory holds the current active process accounting log
+and the composite process usage data (as used in some UNIX-like
+systems by <b class="COMMAND">lastcomm</b> and
+<b class="COMMAND">sa</b>).</p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARCACHEAPPLICATIONCACHEDATA">/var/cache : Application cache data</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE33">Purpose</a></h3><p><tt class="FILENAME">/var/cache</tt> is intended for cached data from
+applications.  Such data is locally generated as a result of
+time-consuming I/O or calculation.  The application must be able to
+regenerate or restore the data.  Unlike
+<tt class="FILENAME">/var/spool</tt>, the cached files can be deleted
+without data loss.  The data must remain valid between invocations of
+the application and rebooting the system.</p><p>Files located under <tt class="FILENAME">/var/cache</tt> may be
+expired in an application specific manner, by the system
+administrator, or both.  The application must always be able to
+recover from manual deletion of these files (generally because of a
+disk space shortage).  No other requirements are made on the data
+format of the cache directories.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>The existence of a separate directory for cached data allows
+system administrators to set different disk and backup policies from
+other directories in <tt class="FILENAME">/var</tt>.
+</p></td></tr></tbody></table></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS21">Specific Options</a></h3><div class="INFORMALTABLE"><p></p><a name="AEN2178"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">fonts</tt></td><td>Locally-generated fonts (optional)</td></tr><tr><td><tt class="FILENAME">man</tt></td><td>Locally-formatted manual pages (optional)</td></tr><tr><td><tt class="FILENAME">www</tt></td><td>WWW proxy or cache data (optional)</td></tr><tr><td><tt class="FILENAME">&lt;package&gt;</tt></td><td>Package specific cache data (optional)</td></tr></tbody></table><p></p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="VARCACHEFONTSLOCALLYGENERATEDFONTS">/var/cache/fonts : Locally-generated fonts (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE34">Purpose</a></h4><p>The directory <tt class="FILENAME">/var/cache/fonts</tt> should be used to store any
+dynamically-created fonts.  In particular, all of the fonts which are
+automatically generated by <b class="COMMAND">mktexpk</b> must be located in
+appropriately-named subdirectories of <tt class="FILENAME">/var/cache/fonts</tt>.
+
+<a name="AEN2209" href="#FTN.AEN2209"><span class="footnote">[36]</span></a></p></div><div class="SECTION"><hr><h4 class="SECTION"><a name="SPECIFICOPTIONS22">Specific Options</a></h4><p>Other dynamically created fonts may also be placed in this tree,
+under appropriately-named subdirectories of
+<tt class="FILENAME">/var/cache/fonts</tt>.</p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="VARCACHEMANLOCALLYFORMATTEDMANUALPAG">/var/cache/man : Locally-formatted manual pages (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE35">Purpose</a></h4><p>This directory provides a standard location for sites that provide a
+read-only <tt class="FILENAME">/usr</tt> partition, but wish to allow caching of
+locally-formatted man pages.  Sites that mount <tt class="FILENAME">/usr</tt> as writable
+(e.g., single-user installations) may choose not to use
+<tt class="FILENAME">/var/cache/man</tt> and may write formatted man pages into the
+<tt class="FILENAME">cat&lt;section&gt;</tt> directories in <tt class="FILENAME">/usr/share/man</tt> directly.  We
+recommend that most sites use one of the following options instead:</p><p></p><ul><li style="list-style-type: disc;"><p>Preformat all manual pages alongside the unformatted versions.</p></li><li style="list-style-type: disc;"><p>Allow no caching of formatted man pages, and require formatting to be
+done each time a man page is brought up.</p></li><li style="list-style-type: disc;"><p>Allow local caching of formatted man pages in <tt class="FILENAME">/var/cache/man</tt>.</p></li></ul><p>The structure of <tt class="FILENAME">/var/cache/man</tt> needs to
+reflect both the fact of multiple man page hierarchies and the
+possibility of multiple language support.</p><p>Given an unformatted manual page that normally appears in
+<tt class="FILENAME">&lt;path&gt;/man/&lt;locale&gt;/man&lt;section&gt;</tt>,
+the directory to place formatted man pages in is
+<tt class="FILENAME">/var/cache/man/&lt;catpath&gt;/&lt;locale&gt;/cat&lt;section&gt;</tt>,
+where <tt class="FILENAME">&lt;catpath&gt;</tt> is derived from
+<tt class="FILENAME">&lt;path&gt;</tt> by removing any leading
+<tt class="FILENAME">usr</tt> and/or trailing <tt class="FILENAME">share</tt>
+pathname components.  (Note that the
+<tt class="FILENAME">&lt;locale&gt;</tt> component may be missing.)
+
+<a name="AEN2244" href="#FTN.AEN2244"><span class="footnote">[37]</span></a></p><p>Man pages written to <tt class="FILENAME">/var/cache/man</tt> may
+eventually be transferred to the appropriate preformatted directories
+in the source <tt class="FILENAME">man</tt> hierarchy or expired; likewise
+formatted man pages in the source <tt class="FILENAME">man</tt> hierarchy
+may be expired if they are not accessed for a period of time.</p><p>If preformatted manual pages come with a system on read-only
+media (a CD-ROM, for instance), they must be installed in the source
+<tt class="FILENAME">man</tt> hierarchy
+(e.g. <tt class="FILENAME">/usr/share/man/cat&lt;section&gt;</tt>).
+<tt class="FILENAME">/var/cache/man</tt> is reserved as a writable cache
+for formatted manual pages.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>Release 1.2 of the standard specified
+<tt class="FILENAME">/var/catman</tt> for this hierarchy.  The path has
+been moved under <tt class="FILENAME">/var/cache</tt> to better reflect the
+dynamic nature of the formatted man pages.  The directory name has
+been changed to <tt class="FILENAME">man</tt> to allow for enhancing the
+hierarchy to include post-processed formats other than "cat", such as
+PostScript, HTML, or DVI.
+</p></td></tr></tbody></table></div></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARCRASHSYSTEMCRASHDUMPS">/var/crash : System crash dumps (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE36">Purpose</a></h3><p>This directory holds system crash dumps.  As of the date of this
+release of the standard, system crash dumps were not supported under
+Linux but may be supported by other systems which may comply with the
+FHS.</p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARGAMESVARIABLEGAMEDATA">/var/games : Variable game data (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE37">Purpose</a></h3><p>Any variable data relating to games in <tt class="FILENAME">/usr</tt>
+should be placed here.  <tt class="FILENAME">/var/games</tt> should hold
+the variable data previously found in <tt class="FILENAME">/usr</tt>;
+static data, such as help text, level descriptions, and so on, must
+remain elsewhere, such as
+<tt class="FILENAME">/usr/share/games</tt>.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p><tt class="FILENAME">/var/games</tt> has been given a hierarchy of
+its own, rather than leaving it merged in with the old
+<tt class="FILENAME">/var/lib</tt> as in release 1.2.  The separation
+allows local control of backup strategies, permissions, and disk
+usage, as well as allowing inter-host sharing and reducing clutter in
+<tt class="FILENAME">/var/lib</tt>.  Additionally,
+<tt class="FILENAME">/var/games</tt> is the path traditionally used by BSD.
+</p></td></tr></tbody></table></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARLIBVARIABLESTATEINFORMATION">/var/lib : Variable state information</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE38">Purpose</a></h3><p>This hierarchy holds state information pertaining to an
+application or the system.  State information is data that programs
+modify while they run, and that pertains to one specific host.  Users
+must never need to modify files in <tt class="FILENAME">/var/lib</tt> to
+configure a package's operation.</p><p>State information is generally used to preserve the condition of
+an application (or a group of inter-related applications) between
+invocations and between different instances of the same application.
+State information should generally remain valid after a reboot, should
+not be logging output, and should not be spooled data.</p><p>An application (or a group of inter-related applications) must
+use a subdirectory of <tt class="FILENAME">/var/lib</tt> for its data.
+There is one required subdirectory,
+<tt class="FILENAME">/var/lib/misc</tt>, which is intended for state files
+that don't need a subdirectory; the other subdirectories should only
+be present if the application in question is included in the
+distribution.
+
+<a name="AEN2295" href="#FTN.AEN2295"><span class="footnote">[38]</span></a></p><p><tt class="FILENAME">/var/lib/&lt;name&gt;</tt> is the location that
+must be used for all distribution packaging support.  Different
+distributions may use different names, of course.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS13">Requirements</a></h3><p>The following directories, or symbolic links to directories, are
+required in <tt class="FILENAME">/var/lib</tt>:</p><div class="INFORMALTABLE"><p></p><a name="AEN2305"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">misc</tt></td><td>Miscellaneous state data</td></tr></tbody></table><p></p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS23">Specific Options</a></h3><p>The following directories, or symbolic links to directories, must be in <tt class="FILENAME">/var/lib</tt>, if the
+corresponding subsystem is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN2320"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td>&lt;editor&gt;</td><td>Editor backup files and state (optional)</td></tr><tr><td>&lt;pkgtool&gt;</td><td>Packaging support files (optional)</td></tr><tr><td>&lt;package&gt;</td><td>State data for packages and subsystems (optional)</td></tr><tr><td><b class="COMMAND">hwclock</b></td><td>State directory for hwclock (optional)</td></tr><tr><td><b class="COMMAND">xdm</b></td><td>X display manager variable data (optional)</td></tr></tbody></table><p></p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="VARLIBLTEDITORGTEDITORBACKUPFILESAN">/var/lib/&lt;editor&gt; : Editor backup files and state (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE39">Purpose</a></h4><p>These directories contain saved files generated by any
+unexpected termination of an editor (e.g., <b class="COMMAND">elvis</b>,
+<b class="COMMAND">jove</b>, <b class="COMMAND">nvi</b>).</p><p>Other editors may not require a directory for crash-recovery
+files, but may require a well-defined place to store other information
+while the editor is running.  This information should be stored in a
+subdirectory under <tt class="FILENAME">/var/lib</tt> (for example, GNU
+Emacs would place lock files in
+<tt class="FILENAME">/var/lib/emacs/lock</tt>).</p><p>Future editors may require additional state information beyond
+crash-recovery files and lock files — this information should
+also be placed under
+<tt class="FILENAME">/var/lib/&lt;editor&gt;</tt>.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>Previous Linux releases, as well as all commercial vendors, use
+<tt class="FILENAME">/var/preserve</tt> for vi or its clones.  However,
+each editor uses its own format for these crash-recovery files, so a
+separate directory is needed for each editor.</p><p>Editor-specific lock files are usually quite different from the
+device or resource lock files that are stored in
+<tt class="FILENAME">/var/lock</tt> and, hence, are stored under
+<tt class="FILENAME">/var/lib</tt>.
+</p></td></tr></tbody></table></div></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="VARLIBHWCLOCKSTATEDIRECTORYFORHWCLO">/var/lib/hwclock : State directory for hwclock (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE40">Purpose</a></h4><p>This directory contains the file
+<tt class="FILENAME">/var/lib/hwclock/adjtime</tt>.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>In FHS 2.1, this file was <tt class="FILENAME">/etc/adjtime</tt>, but
+as <b class="COMMAND">hwclock</b> updates it, that was obviously
+incorrect.
+</p></td></tr></tbody></table></div></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="VARLIBMISCMISCELLANEOUSVARIABLEDATA">/var/lib/misc : Miscellaneous variable data</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE41">Purpose</a></h4><p>This directory contains variable data not placed in a
+subdirectory in <tt class="FILENAME">/var/lib</tt>.  An attempt should be
+made to use relatively unique names in this directory to avoid
+namespace conflicts.
+
+<a name="AEN2381" href="#FTN.AEN2381"><span class="footnote">[39]</span></a></p></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARLOCKLOCKFILES">/var/lock : Lock files</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE42">Purpose</a></h3><p>Lock files should be stored within the
+<tt class="FILENAME">/var/lock</tt> directory structure.</p><p>Lock files for devices and other resources shared by multiple
+applications, such as the serial device lock files that were
+originally found in either <tt class="FILENAME">/usr/spool/locks</tt> or
+<tt class="FILENAME">/usr/spool/uucp</tt>, must now be stored in
+<tt class="FILENAME">/var/lock</tt>.  The naming convention which must be
+used is "LCK.." followed by the base name of the device.  For example,
+to lock /dev/ttyS0 the file "LCK..ttyS0" would be created.
+
+<a name="AEN2396" href="#FTN.AEN2396"><span class="footnote">[40]</span></a></p><p>The format used for the contents of such lock files must be the
+HDB UUCP lock file format.  The HDB format is to store the process
+identifier (PID) as a ten byte ASCII decimal number, with a trailing
+newline.  For example, if process 1230 holds a lock file, it would
+contain the eleven characters: space, space, space, space, space,
+space, one, two, three, zero, and newline.</p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARLOGLOGFILESANDDIRECTORIES">/var/log : Log files and directories</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE43">Purpose</a></h3><p>This directory contains miscellaneous log files.  Most logs must
+be written to this directory or an appropriate subdirectory.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS24">Specific Options</a></h3><p>The following files, or symbolic links to files, must be in
+<tt class="FILENAME">/var/log</tt>, if the corresponding subsystem is
+installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN2410"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>File</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">lastlog</tt></td><td>record of last login of each user</td></tr><tr><td><tt class="FILENAME">messages</tt></td><td>system messages from <b class="COMMAND">syslogd</b></td></tr><tr><td><tt class="FILENAME">wtmp</tt></td><td>record of all logins and logouts</td></tr></tbody></table><p></p></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARMAILUSERMAILBOXFILES">/var/mail : User mailbox files (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE44">Purpose</a></h3><p>The mail spool must be accessible through
+<tt class="FILENAME">/var/mail</tt> and the mail spool files must take the
+form <tt class="FILENAME">&lt;username&gt;</tt>.
+<a name="AEN2437" href="#FTN.AEN2437"><span class="footnote">[41]</span></a></p><p>User mailbox files in this location must be stored in the standard
+UNIX mailbox format.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>The logical location for this directory was changed from
+<tt class="FILENAME">/var/spool/mail</tt> in order to bring FHS in-line
+with nearly every UNIX implementation.  This change is important for
+inter-operability since a single <tt class="FILENAME">/var/mail</tt> is
+often shared between multiple hosts and multiple UNIX implementations
+(despite NFS locking issues).</p><p>It is important to note that there is no requirement to
+physically move the mail spool to this location.  However, programs
+and header files must be changed to use
+<tt class="FILENAME">/var/mail</tt>.
+</p></td></tr></tbody></table></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VAROPTVARIABLEDATAFOROPT">/var/opt : Variable data for /opt</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE45">Purpose</a></h3><p>Variable data of the packages in <tt class="FILENAME">/opt</tt> must
+be installed in <tt class="FILENAME">/var/opt/&lt;subdir&gt;</tt>, where
+<tt class="FILENAME">&lt;subdir&gt;</tt> is the name of the subtree in
+<tt class="FILENAME">/opt</tt> where the static data from an add-on
+software package is stored, except where superseded by another file in
+<tt class="FILENAME">/etc</tt>.  No structure is imposed on the internal
+arrangement of <tt class="FILENAME">/var/opt/&lt;subdir&gt;</tt>.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>Refer to the rationale for <tt class="FILENAME">/opt</tt>.
+</p></td></tr></tbody></table></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARRUNRUNTIMEVARIABLEDATA">/var/run : Run-time variable data</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE46">Purpose</a></h3><p>This directory contains system information data describing the
+system since it was booted.  Files under this directory must be
+cleared (removed or truncated as appropriate) at the beginning of the
+boot process.  Programs may have a subdirectory of
+<tt class="FILENAME">/var/run</tt>; this is encouraged for programs that
+use more than one run-time file.
+
+<a name="AEN2469" href="#FTN.AEN2469"><span class="footnote">[42]</span></a>
+
+Process identifier (PID) files, which were originally placed in
+<tt class="FILENAME">/etc</tt>, must be placed in
+<tt class="FILENAME">/var/run</tt>.  The naming convention for PID files is
+<tt class="FILENAME">&lt;program-name&gt;.pid</tt>.  For example, the
+<b class="COMMAND">crond</b> PID file is named
+<tt class="FILENAME">/var/run/crond.pid</tt>.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="REQUIREMENTS14">Requirements</a></h3><p>The internal format of PID files remains unchanged.  The file
+must consist of the process identifier in ASCII-encoded decimal,
+followed by a newline character.  For example, if
+<b class="COMMAND">crond</b> was process number 25,
+<tt class="FILENAME">/var/run/crond.pid</tt> would contain three
+characters: two, five, and newline.</p><p>Programs that read PID files should be somewhat flexible in what
+they accept; i.e., they should ignore extra whitespace, leading
+zeroes, absence of the trailing newline, or additional lines in the
+PID file.  Programs that create PID files should use the simple
+specification located in the above paragraph.</p><p>The <tt class="FILENAME">utmp</tt> file, which stores information
+about who is currently using the system, is located in this
+directory.</p><p>System programs that maintain transient UNIX-domain sockets must place
+them in this directory.</p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARSPOOLAPPLICATIONSPOOLDATA">/var/spool : Application spool data</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE47">Purpose</a></h3><p><tt class="FILENAME">/var/spool</tt> contains data which is awaiting
+some kind of later processing.  Data in
+<tt class="FILENAME">/var/spool</tt> represents work to be done in the
+future (by a program, user, or administrator); often data is deleted
+after it has been processed.
+
+<a name="AEN2493" href="#FTN.AEN2493"><span class="footnote">[43]</span></a></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SPECIFICOPTIONS25">Specific Options</a></h3><p>The following directories, or symbolic links to directories,
+must be in <tt class="FILENAME">/var/spool</tt>, if the corresponding
+subsystem is installed:</p><div class="INFORMALTABLE"><p></p><a name="AEN2501"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">lpd</tt></td><td>Printer spool directory (optional)</td></tr><tr><td><tt class="FILENAME">mqueue</tt></td><td>Outgoing mail queue (optional)</td></tr><tr><td><tt class="FILENAME">news</tt></td><td>News spool directory (optional)</td></tr><tr><td><tt class="FILENAME">rwho</tt></td><td>Rwhod files (optional)</td></tr><tr><td><tt class="FILENAME">uucp</tt></td><td>Spool directory for UUCP (optional)</td></tr></tbody></table><p></p></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="VARSPOOLLPDLINEPRINTERDAEMONPRINTQU">/var/spool/lpd : Line-printer daemon print queues (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE48">Purpose</a></h4><p>The lock file for <b class="COMMAND">lpd</b>,
+<tt class="FILENAME">lpd.lock</tt>, must be placed in
+<tt class="FILENAME">/var/spool/lpd</tt>.  It is suggested that the lock
+file for each printer be placed in the spool directory for that
+specific printer and named <tt class="FILENAME">lock</tt>.</p></div><div class="SECTION"><hr><h4 class="SECTION"><a name="SPECIFICOPTIONS26">Specific Options</a></h4><div class="INFORMALTABLE"><p></p><a name="AEN2539"></a><table class="CALSTABLE" border="0" frame="void"><col><col><thead><tr><th>Directory</th><th>Description</th></tr></thead><tbody><tr><td><tt class="FILENAME">printer</tt></td><td>Spools for a specific printer (optional)</td></tr></tbody></table><p></p></div></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="VARSPOOLRWHORWHODFILES">/var/spool/rwho : Rwhod files (optional)</a></h3><div class="SECTION"><h4 class="SECTION"><a name="PURPOSE49">Purpose</a></h4><p>This directory holds the <b class="COMMAND">rwhod</b> information
+for other systems on the local net.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>Some BSD releases use <tt class="FILENAME">/var/rwho</tt> for this
+data; given its historical location in <tt class="FILENAME">/var/spool</tt>
+on other systems and its approximate fit to the definition of
+`spooled' data, this location was deemed more appropriate.</p></td></tr></tbody></table></div></div></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARTMPTEMPORARYFILESPRESERVEDBETWEE">/var/tmp : Temporary files preserved between system reboots</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE50">Purpose</a></h3><p>The <tt class="FILENAME">/var/tmp</tt> directory is made available
+for programs that require temporary files or directories that are
+preserved between system reboots.  Therefore, data stored in
+<tt class="FILENAME">/var/tmp</tt> is more persistent than data in
+<tt class="FILENAME">/tmp</tt>.</p><p>Files and directories located in <tt class="FILENAME">/var/tmp</tt>
+must not be deleted when the system is booted.  Although data stored
+in <tt class="FILENAME">/var/tmp</tt> is typically deleted in a
+site-specific manner, it is recommended that deletions occur at a less
+frequent interval than <tt class="FILENAME">/tmp</tt>.</p></div></div><div class="SECTION"><hr><h2 class="SECTION"><a name="VARYPNETWORKINFORMATIONSERVICE">/var/yp : Network Information Service (NIS) database files (optional)</a></h2><div class="SECTION"><h3 class="SECTION"><a name="PURPOSE51">Purpose</a></h3><p>Variable data for the Network Information Service (NIS),
+formerly known as the Sun Yellow Pages (YP), must be placed in this
+directory.</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p><tt class="FILENAME">/var/yp</tt> is the standard directory for NIS
+(YP) data and is almost exclusively used in NIS documentation and
+systems.
+
+<a name="AEN2582" href="#FTN.AEN2582"><span class="footnote">[44]</span></a></p></td></tr></tbody></table></div></div></div></div><div class="CHAPTER"><hr><h1><a name="OPERATINGSYSTEMSPECIFICANNEX"></a>Chapter 6. Operating System Specific Annex</h1><p>This section is for additional requirements and recommendations
+that only apply to a specific operating system.  The material in this
+section should never conflict with the base standard.</p><div class="SECTION"><hr><h2 class="SECTION"><a name="LINUX">Linux</a></h2><p>This is the annex for the Linux operating system.</p><div class="SECTION"><hr><h3 class="SECTION"><a name="ROOTDIRECTORY">/ : Root directory</a></h3><p>On Linux systems, if the kernel is located in
+<tt class="FILENAME">/</tt>, we recommend using the names
+<tt class="FILENAME">vmlinux</tt> or <tt class="FILENAME">vmlinuz</tt>, which
+have been used in recent Linux kernel source packages.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="BINESSENTIALUSERCOMMANDBINARIES2">/bin : Essential user command binaries (for use by all users)</a></h3><p>Linux systems which require them place these additional files into
+<tt class="FILENAME">/bin</tt>:</p><p></p><ul><li><p><b class="COMMAND">setserial</b></p></li></ul></div><div class="SECTION"><hr><h3 class="SECTION"><a name="DEVDEVICESANDSPECIALFILES">/dev : Devices and special files</a></h3><p>The following devices must exist under /dev. 
+
+</p><p></p><div class="VARIABLELIST"><dl><dt><tt class="FILENAME">/dev/null</tt></dt><dd><p>All data written to this device is discarded. A read from this device
+will return an EOF condition.</p></dd><dt><tt class="FILENAME">/dev/zero</tt></dt><dd><p>This device is a source of zeroed out data. All data written to this
+device is discarded. A read from this device will return as many bytes
+containing the value zero as was requested.</p></dd><dt><tt class="FILENAME">/dev/tty</tt></dt><dd><p>This device is a synonym for the controlling terminal of a
+process. Once this device is opened, all reads and writes will behave
+as if the actual controlling terminal device had been opened.</p></dd></dl></div>
+
+<div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>Previous versions of the FHS had stricter requirements for
+<tt class="FILENAME">/dev</tt>. Other devices may also exist in
+/dev. Device names may exist as symbolic links to other device nodes
+located in /dev or subdirectories of /dev. There is no requirement
+concerning major/minor number values.</p></td></tr></tbody></table></div>
+<p></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="ETCHOSTSPECIFICSYSTEMCONFIGURATION2">/etc : Host-specific system configuration</a></h3><p>Linux systems which require them place these additional files into
+<tt class="FILENAME">/etc</tt>.</p><p></p><ul><li><p><tt class="FILENAME">lilo.conf</tt></p></li></ul></div><div class="SECTION"><hr><h3 class="SECTION"><a name="LIB64">/lib64 and /lib32 : 64/32-bit libraries (architecture dependent)</a></h3><p>
+The 64-bit architectures PPC64, s390x, sparc64 and AMD64 must place
+64-bit libraries in <tt class="FILENAME">/lib64</tt>, and 32-bit
+(or 31-bit on s390) libraries in <tt class="FILENAME">/lib</tt>.</p><p>The 64-bit architecture IA64 must place 64-bit libraries in
+<tt class="FILENAME">/lib</tt>. 
+
+</p><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>This is a refinement of the general rules for
+<tt class="FILENAME">/lib&lt;qual&gt;</tt> and
+<tt class="FILENAME">/usr/lib&lt;qual&gt;</tt>.  The architectures PPC64,
+s390x, sparc64 and AMD64 support support both 32-bit (for s390 more
+precise 31-bit) and 64-bit programs.  Using <tt class="FILENAME">lib</tt>
+for 32-bit binaries allows existing binaries from the 32-bit systems
+to work without any changes: such binaries are expected to be numerous.
+IA-64 uses a different scheme, reflecting the deprecation of 32-bit
+binaries (and hence libraries) on that architecture.</p></td></tr></tbody></table></div><p></p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="PROCKERNELANDPROCESSINFORMATIONVIR">/proc : Kernel and process information virtual filesystem</a></h3><p>The <tt class="FILENAME">proc</tt> filesystem is the de-facto
+standard Linux method for handling process and system information,
+rather than <tt class="FILENAME">/dev/kmem</tt> and other similar methods.
+We strongly encourage this for the storage and retrieval of process
+information as well as other kernel and memory information.</p></div><div class="SECTION"><hr><h3 class="SECTION"><a name="SBINESSENTIALSYSTEMBINARIES">/sbin : Essential system binaries</a></h3><p>Linux systems place these additional files into <tt class="FILENAME">/sbin</tt>.</p><p></p><ul><li style="list-style-type: disc;"><p>Second extended filesystem commands (optional):</p><p></p><ul><li style="list-style-type: disc;"><p><b class="COMMAND">badblocks</b></p></li><li style="list-style-type: disc;"><p><b class="COMMAND">dumpe2fs</b></p></li><li style="list-style-type: disc;"><p><b class="COMMAND">e2fsck</b></p></li><li style="list-style-type: disc;"><p><b class="COMMAND">mke2fs</b></p></li><li style="list-style-type: disc;"><p><b class="COMMAND">mklost+found</b></p></li><li style="list-style-type: disc;"><p><b class="COMMAND">tune2fs</b></p></li></ul></li><li style="list-style-type: disc;"><p>Boot-loader map installer (optional):</p><p></p><ul><li style="list-style-type: disc;"><p><b class="COMMAND">lilo</b></p></li></ul></li></ul><p>Optional files for /sbin:</p><p></p><ul><li style="list-style-type: disc;"><p>Static binaries:</p><p></p><ul><li style="list-style-type: disc;"><p><b class="COMMAND">ldconfig</b></p></li><li style="list-style-type: disc;"><p><b class="COMMAND">sln</b></p></li><li style="list-style-type: disc;"><p><b class="COMMAND">ssync</b></p></li></ul><p>Static <b class="COMMAND">ln</b> (<b class="COMMAND">sln</b>) and
+static <b class="COMMAND">sync</b> (<b class="COMMAND">ssync</b>) are
+useful when things go wrong.  The primary use of
+<b class="COMMAND">sln</b> (to repair incorrect symlinks in
+<tt class="FILENAME">/lib</tt> after a poorly orchestrated upgrade) is no
+longer a major concern now that the <b class="COMMAND">ldconfig</b>
+program (usually located in <tt class="FILENAME">/usr/sbin</tt>) exists and
+can act as a guiding hand in upgrading the dynamic libraries.  Static
+<b class="COMMAND">sync</b> is useful in some emergency situations.
+Note that these need not be statically linked versions of the standard
+<b class="COMMAND">ln</b> and <b class="COMMAND">sync</b>, but may
+be.</p><p>The <b class="COMMAND">ldconfig</b> binary is optional for
+<tt class="FILENAME">/sbin</tt> since a site may choose to run
+<b class="COMMAND">ldconfig</b> at boot time, rather than only when
+upgrading the shared libraries.  (It's not clear whether or not it is
+advantageous to run <b class="COMMAND">ldconfig</b> on each boot.)  Even
+so, some people like <b class="COMMAND">ldconfig</b> around for the
+following (all too common) situation:</p><p></p><ol type="1"><li style="list-style-type: disc;"><p>I've just removed <tt class="FILENAME">/lib/&lt;file&gt;</tt>.</p></li><li style="list-style-type: disc;"><p>I can't find out the name of the library because <b class="COMMAND">ls</b> is
+dynamically linked, I'm using a shell that doesn't have <b class="COMMAND">ls</b>
+built-in, and I don't know about using "<b class="COMMAND">echo *</b>" as a
+replacement.</p></li><li style="list-style-type: disc;"><p>I have a static <b class="COMMAND">sln</b>, but I don't know what to call the link.</p></li></ol></li><li style="list-style-type: disc;"><p>Miscellaneous:</p><p></p><ul><li style="list-style-type: disc;"><p><b class="COMMAND">ctrlaltdel</b></p></li><li style="list-style-type: disc;"><p><b class="COMMAND">kbdrate</b></p></li></ul><p>So as to cope with the fact that some keyboards come up with
+such a high repeat rate as to be unusable,
+<b class="COMMAND">kbdrate</b> may be installed in
+<tt class="FILENAME">/sbin</tt> on some systems.</p><p>Since the default action in the kernel for the Ctrl-Alt-Del key
+combination is an instant hard reboot, it is generally advisable to
+disable the behavior before mounting the root filesystem in read-write
+mode.  Some <b class="COMMAND">init</b> suites are able to disable
+Ctrl-Alt-Del, but others may require the
+<b class="COMMAND">ctrlaltdel</b> program, which may be installed in
+<tt class="FILENAME">/sbin</tt> on those systems.</p></li></ul></div><div class="SECTION"><hr><h3 class="SECTION"><a name="USRINCLUDEHEADERFILESINCLUDEDBYCP">/usr/include : Header files included by C programs</a></h3><p>These symbolic links are required if a C or C++ compiler is
+installed and only for systems not based on glibc.</p><table bgcolor="#e0e0e0" border="0" width="100%"><tbody><tr><td><pre class="SCREEN">    /usr/include/asm -&gt; /usr/src/linux/include/asm-&lt;arch&gt;
+    /usr/include/linux -&gt; /usr/src/linux/include/linux</pre></td></tr></tbody></table></div><div class="SECTION"><hr><h3 class="SECTION"><a name="USRSRCSOURCECODE2">/usr/src : Source code</a></h3><p>For systems based on glibc, there are no specific guidelines for
+this directory.  For systems based on Linux libc revisions prior to
+glibc, the following guidelines and rationale apply:</p><p>The only source code that should be placed in a specific
+location is the Linux kernel source code.  It is located in
+<tt class="FILENAME">/usr/src/linux</tt>.</p><p>If a C or C++ compiler is installed, but the complete Linux
+kernel source code is not installed, then the include files from the
+kernel source code must be located in these directories:</p><table bgcolor="#e0e0e0" border="0" width="100%"><tbody><tr><td><pre class="SCREEN">    /usr/src/linux/include/asm-&lt;arch&gt;
+    /usr/src/linux/include/linux</pre></td></tr></tbody></table><p><tt class="FILENAME">&lt;arch&gt;</tt> is the name of the system
+architecture.</p><div class="NOTE"><p></p><table class="NOTE" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/note.html" alt="Note" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Note</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p> <tt class="FILENAME">/usr/src/linux</tt>
+may be a symbolic link to a kernel source code tree.</p></td></tr></tbody></table></div><div class="TIP"><p></p><table class="TIP" border="0" width="100%"><tbody><tr><td valign="TOP" width="25" align="CENTER"><img src="fhs-2.3_files/tip.gif" alt="Tip" hspace="5"></td><th valign="CENTER" align="LEFT"><b>Rationale</b></th></tr><tr><td>&nbsp;</td><td valign="TOP" align="LEFT"><p>It is important that the kernel include files be located in
+<tt class="FILENAME">/usr/src/linux</tt> and not in
+<tt class="FILENAME">/usr/include</tt> so there are no problems when system
+administrators upgrade their kernel version for the first time.
+</p></td></tr></tbody></table></div></div><div class="SECTION"><hr><h3 class="SECTION"><a name="VARSPOOLCRONCRONANDATJOBS">/var/spool/cron : cron and at jobs</a></h3><p>This directory contains the variable data for the
+<b class="COMMAND">cron</b> and <b class="COMMAND">at</b> programs.</p></div></div></div><div class="CHAPTER"><hr><h1><a name="APPENDIX"></a>Chapter 7. Appendix</h1><div class="SECTION"><h2 class="SECTION"><a name="THEFHSMAILINGLIST">The FHS mailing list</a></h2><p>The FHS mailing list is located at
+&lt;freestandards-fhs-discuss@lists.sourceforge.net&gt;. You can
+subscribe to the mailing list at this page <a href="http://sourceforge.net/projects/freestandards/" target="_top">http://sourceforge.net/projects/freestandards/</a>.</p><p>Thanks to Network Operations at the University of California at
+San Diego who allowed us to use their excellent mailing list
+server.</p><p>As noted in the introduction, please do not send mail to the mailing
+list without first contacting the FHS editor or a listed contributor.</p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="BACKGROUNDOFTHEFHS">Background of the FHS</a></h2><p>The process of developing a standard filesystem hierarchy began
+in August 1993 with an effort to restructure the file and directory
+structure of Linux.  The FSSTND, a filesystem hierarchy standard
+specific to the Linux operating system, was released on February 14,
+1994.  Subsequent revisions were released on October 9, 1994 and March
+28, 1995.</p><p>In early 1995, the goal of developing a more comprehensive
+version of FSSTND to address not only Linux, but other UNIX-like
+systems was adopted with the help of members of the BSD development
+community.  As a result, a concerted effort was made to focus on
+issues that were general to UNIX-like systems.  In recognition of this
+widening of scope, the name of the standard was changed to Filesystem
+Hierarchy Standard or FHS for short.</p><p>Volunteers who have contributed extensively to this standard are
+listed at the end of this document.  This standard represents a
+consensus view of those and other contributors.</p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="GENERALGUIDELINES">General Guidelines</a></h2><p>Here are some of the guidelines that have been used in the development
+of this standard:</p><p></p><ul><li style="list-style-type: disc;"><p>Solve technical problems while limiting transitional difficulties.</p></li><li style="list-style-type: disc;"><p>Make the specification reasonably stable.</p></li><li style="list-style-type: disc;"><p>Gain the approval of distributors, developers, and other decision-makers
+in relevant development groups and encourage their participation.</p></li><li style="list-style-type: disc;"><p>Provide a standard that is attractive to the implementors of different
+UNIX-like systems.</p></li></ul></div><div class="SECTION"><hr><h2 class="SECTION"><a name="SCOPE">Scope</a></h2><p>This document specifies a standard filesystem hierarchy for FHS
+filesystems by specifying the location of files and directories, and
+the contents of some system files.</p><p>This standard has been designed to be used by system
+integrators, package developers, and system administrators in the
+construction and maintenance of FHS compliant filesystems.  It is
+primarily intended to be a reference and is not a tutorial on how to
+manage a conforming filesystem hierarchy.</p><p>The FHS grew out of earlier work on FSSTND, a filesystem
+organization standard for the Linux operating system.  It builds on
+FSSTND to address interoperability issues not just in the Linux
+community but in a wider arena including 4.4BSD-based operating
+systems.  It incorporates lessons learned in the BSD world and
+elsewhere about multi-architecture support and the demands of
+heterogeneous networking.</p><p>Although this standard is more comprehensive than previous
+attempts at filesystem hierarchy standardization, periodic updates may
+become necessary as requirements change in relation to emerging
+technology.  It is also possible that better solutions to the problems
+addressed here will be discovered so that our solutions will no longer
+be the best possible solutions.  Supplementary drafts may be released
+in addition to periodic updates to this document.  However, a specific
+goal is backwards compatibility from one release of this document to
+the next.</p><p>Comments related to this standard are welcome.  Any comments or
+suggestions for changes may be directed to the FHS editor (Daniel
+Quinlan &lt;quinlan@pathname.com&gt;) or the FHS mailing list.
+Typographical or grammatical comments should be directed to the FHS
+editor.</p><p>Before sending mail to the mailing list it is requested that you
+first contact the FHS editor in order to avoid excessive re-discussion
+of old topics.</p><p>Questions about how to interpret items in this document may
+occasionally arise.  If you have need for a clarification, please
+contact the FHS editor.  Since this standard represents a consensus of
+many participants, it is important to make certain that any
+interpretation also represents their collective opinion.  For this
+reason it may not be possible to provide an immediate response unless
+the inquiry has been the subject of previous discussion.</p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="ACKNOWLEDGMENTS">Acknowledgments</a></h2><p>The developers of the FHS wish to thank the developers, system
+administrators, and users whose input was essential to this standard.
+We wish to thank each of the contributors who helped to write,
+compile, and compose this standard.</p><p>The FHS Group also wishes to thank those Linux developers who
+supported the FSSTND, the predecessor to this standard.  If they
+hadn't demonstrated that the FSSTND was beneficial, the FHS could
+never have evolved.</p></div><div class="SECTION"><hr><h2 class="SECTION"><a name="CONTRIBUTORS">Contributors</a></h2><div class="INFORMALTABLE"><p></p><a name="AEN2813"></a><table class="CALSTABLE" border="0" frame="void"><col title="C1" width="1*"><col title="C2" width="1*"><tbody><tr><td align="LEFT">Brandon S. Allbery</td><td align="LEFT">&lt;bsa@kf8nh.wariat.org&gt;</td></tr><tr><td align="LEFT">Keith Bostic</td><td align="LEFT">&lt;bostic@cs.berkeley.edu&gt;</td></tr><tr><td align="LEFT">Drew Eckhardt</td><td align="LEFT">&lt;drew@colorado.edu&gt;</td></tr><tr><td align="LEFT">Rik Faith</td><td align="LEFT">&lt;faith@cs.unc.edu&gt;</td></tr><tr><td align="LEFT">Stephen Harris</td><td align="LEFT">&lt;sweh@spuddy.mew.co.uk&gt;</td></tr><tr><td align="LEFT">Ian Jackson</td><td align="LEFT">&lt;ijackson@cus.cam.ac.uk&gt;</td></tr><tr><td align="LEFT">Andreas Jaeger</td><td align="LEFT">&lt;aj@suse.de&gt;</td></tr><tr><td align="LEFT">John A. Martin</td><td align="LEFT">&lt;jmartin@acm.org&gt;</td></tr><tr><td align="LEFT">Ian McCloghrie</td><td align="LEFT">&lt;ian@ucsd.edu&gt;</td></tr><tr><td align="LEFT">Chris Metcalf</td><td align="LEFT">&lt;metcalf@lcs.mit.edu&gt;</td></tr><tr><td align="LEFT">Ian Murdock</td><td align="LEFT">&lt;imurdock@debian.org&gt;</td></tr><tr><td align="LEFT">David C. Niemi</td><td align="LEFT">&lt;niemidc@clark.net&gt;</td></tr><tr><td align="LEFT">Daniel Quinlan</td><td align="LEFT">&lt;quinlan@pathname.com&gt;</td></tr><tr><td align="LEFT">Eric S. Raymond</td><td align="LEFT">&lt;esr@thyrsus.com&gt;</td></tr><tr><td align="LEFT">Rusty Russell</td><td align="LEFT">&lt;rusty@rustcorp.com.au&gt;</td></tr><tr><td align="LEFT">Mike Sangrey</td><td align="LEFT">&lt;mike@sojurn.lns.pa.us&gt;</td></tr><tr><td align="LEFT">David H. Silber</td><td align="LEFT">&lt;dhs@glowworm.firefly.com&gt;</td></tr><tr><td align="LEFT">Thomas Sippel-Dau</td><td align="LEFT">&lt;t.sippel-dau@ic.ac.uk&gt;</td></tr><tr><td align="LEFT">Theodore Ts'o</td><td align="LEFT">&lt;tytso@athena.mit.edu&gt;</td></tr><tr><td align="LEFT">Stephen Tweedie</td><td align="LEFT">&lt;sct@dcs.ed.ac.uk&gt;</td></tr><tr><td align="LEFT">Fred N. van Kempen</td><td align="LEFT">&lt;waltje@infomagic.com&gt;</td></tr><tr><td align="LEFT">Bernd Warken</td><td align="LEFT">&lt;bwarken@mayn.de&gt;</td></tr><tr><td align="LEFT">Christopher Yeoh</td><td align="LEFT">&lt;cyeoh@samba.org&gt;</td></tr></tbody></table><p></p></div></div></div></div><h3 class="FOOTNOTES">Notes</h3><table class="FOOTNOTES" border="0" width="100%"><tbody><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN261" href="#AEN261"><span class="footnote">[1]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Command binaries that are not essential enough to place into
+<tt class="FILENAME">/bin</tt> must be placed in
+<tt class="FILENAME">/usr/bin</tt>, instead.  Items that are required only
+by non-root users (the X Window System, <tt class="FILENAME">chsh</tt>,
+etc.) are generally not essential enough to be placed into the root
+partition.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN493" href="#AEN493"><span class="footnote">[2]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p> Programs necessary to arrange for the boot loader to be
+able to boot a file must be placed in <tt class="FILENAME">/sbin</tt>.
+Configuration files for boot loaders must be placed in
+<tt class="FILENAME">/etc</tt>.</p><p>The GRUB bootloader reads its configurations file before
+booting, so that must be placed in <tt class="FILENAME">/boot</tt>.  However, it is a
+configuration file, so should be in <tt class="FILENAME">/etc</tt>.  The answer here is a
+symbolic link such as <tt class="FILENAME">/etc/grub/menu.lst</tt> -&gt; <tt class="FILENAME">/boot/menu.lst</tt>.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN507" href="#AEN507"><span class="footnote">[3]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>On some i386 machines, it may be necessary for
+<tt class="FILENAME">/boot</tt> to be located on a separate partition
+located completely below cylinder 1024 of the boot device due to
+hardware constraints.</p><p>Certain MIPS systems require a <tt class="FILENAME">/boot</tt>
+partition that is a mounted MS-DOS filesystem or whatever other
+filesystem type is accessible for the firmware.  This may result in
+restrictions with respect to usable filenames within
+<tt class="FILENAME">/boot</tt> (only for affected systems).</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN534" href="#AEN534"><span class="footnote">[4]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>The setup of command scripts invoked at boot time may resemble System
+V, BSD or other models.  Further specification in this area may be
+added to a future version of this standard.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN540" href="#AEN540"><span class="footnote">[5]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>It is recommended that files be stored in subdirectories of
+<tt class="FILENAME">/etc</tt> rather than directly in
+<tt class="FILENAME">/etc</tt>.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN581" href="#AEN581"><span class="footnote">[6]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Systems that use the shadow password suite will have additional
+configuration files in <tt class="FILENAME">/etc</tt>
+(<tt class="FILENAME">/etc/shadow</tt> and others) and programs in
+<tt class="FILENAME">/usr/sbin</tt> (<b class="COMMAND">useradd</b>,
+<b class="COMMAND">usermod</b>, and others).</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN722" href="#AEN722"><span class="footnote">[7]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>On some Linux systems, this may be a symbolic link to
+<tt class="FILENAME">/proc/mounts</tt>, in which case this exception is not
+required.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN778" href="#AEN778"><span class="footnote">[8]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p><tt class="FILENAME">/etc/X11/xdm</tt> holds the configuration files for
+<tt class="FILENAME">xdm</tt>.  These are most of the files previously
+found in <tt class="FILENAME">/usr/lib/X11/xdm</tt>.  Some local variable
+data for <tt class="FILENAME">xdm</tt> is stored in
+<tt class="FILENAME">/var/lib/xdm</tt>.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN808" href="#AEN808"><span class="footnote">[9]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Different people prefer to place user accounts in a variety of places.
+This section describes only a suggested placement for user home
+directories; nevertheless we recommend that all FHS-compliant
+distributions use this as the default location for home
+directories.</p><p>On small systems, each user's directory is typically one of the
+many subdirectories of <tt class="FILENAME">/home</tt> such as
+<tt class="FILENAME">/home/smith</tt>, <tt class="FILENAME">/home/torvalds</tt>,
+<tt class="FILENAME">/home/operator</tt>, etc.  On large systems
+(especially when the <tt class="FILENAME">/home</tt> directories are shared
+amongst many hosts using NFS) it is useful to subdivide user home
+directories.  Subdivision may be accomplished by using subdirectories
+such as <tt class="FILENAME">/home/staff</tt>,
+<tt class="FILENAME">/home/guests</tt>,
+<tt class="FILENAME">/home/students</tt>, etc.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN819" href="#AEN819"><span class="footnote">[10]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>If you want to find out a user's home directory, you should use the
+<tt class="FILENAME">getpwent(3)</tt> library function rather than relying
+on <tt class="FILENAME">/etc/passwd</tt> because user information may be
+stored remotely using systems such as NIS.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN826" href="#AEN826"><span class="footnote">[11]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>It is recommended that apart from autosave and lock files programs
+should refrain from creating non dot files or directories in a home
+directory without user intervention.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN836" href="#AEN836"><span class="footnote">[12]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Shared libraries that are only necessary for binaries in
+<tt class="FILENAME">/usr</tt> (such as any X Window binaries) must not be
+in <tt class="FILENAME">/lib</tt>. Only the shared libraries required to
+run binaries in <tt class="FILENAME">/bin</tt> and
+<tt class="FILENAME">/sbin</tt> may be here.  In particular, the library
+<tt class="FILENAME">libm.so.*</tt> may also be placed in
+<tt class="FILENAME">/usr/lib</tt> if it is not required by anything in
+<tt class="FILENAME">/bin</tt> or <tt class="FILENAME">/sbin</tt>.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN866" href="#AEN866"><span class="footnote">[13]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>The usual placement of this binary is <tt class="FILENAME">/usr/bin/cpp</tt>.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN890" href="#AEN890"><span class="footnote">[14]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>This is commonly used for 64-bit or 32-bit support on
+systems which support multiple binary formats, but require libraries
+of the same name.  In this case, <tt class="FILENAME">/lib32</tt> and
+<tt class="FILENAME">/lib64</tt> might be the library directories, and
+<tt class="FILENAME">/lib</tt> a symlink to one of them.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN900" href="#AEN900"><span class="footnote">[15]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p><tt class="FILENAME">/lib&lt;qual&gt;/cpp</tt> is still permitted: this
+allows the case where <tt class="FILENAME">/lib</tt> and
+<tt class="FILENAME">/lib&lt;qual&gt;</tt> are the same (one is a symbolic
+link to the other). </p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN947" href="#AEN947"><span class="footnote">[16]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>A compliant implementation with two CDROM drives might have
+<tt class="FILENAME">/media/cdrom0</tt> and
+<tt class="FILENAME">/media/cdrom1</tt> with
+<tt class="FILENAME">/media/cdrom</tt> a symlink to either of these.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1037" href="#AEN1037"><span class="footnote">[17]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>If the home directory of the root account is not
+stored on the root partition it will be necessary to make certain it
+will default to <tt class="FILENAME">/</tt> if it can not be
+located.</p><p>We recommend against using the root account for tasks that can be
+performed as an unprivileged user, and that it be used solely for system
+administration.  For this reason, we recommend that subdirectories for
+mail and other applications not appear in the root account's home
+directory, and that mail for administration roles such as root,
+postmaster, and webmaster be forwarded to an appropriate user.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1051" href="#AEN1051"><span class="footnote">[18]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Originally, <tt class="FILENAME">/sbin</tt> binaries were kept in
+<tt class="FILENAME">/etc</tt>.  </p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1058" href="#AEN1058"><span class="footnote">[19]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Deciding what things go into
+<span class="emphasis"><i class="EMPHASIS">"sbin"</i></span> directories is simple: if a normal (not a
+system administrator) user will ever run it directly, then it must be
+placed in one of the <span class="emphasis"><i class="EMPHASIS">"bin"</i></span> directories.  Ordinary
+users should not have to place any of the <tt class="FILENAME">sbin</tt>
+directories in their path.</p><p>For example, files such as <b class="COMMAND">chfn</b> which users
+only occasionally use must still be placed in
+<tt class="FILENAME">/usr/bin</tt>.  <b class="COMMAND">ping</b>, although it
+is absolutely necessary for root (network recovery and diagnosis) is
+often used by users and must live in <tt class="FILENAME">/bin</tt> for
+that reason.</p><p>We recommend that users have read and execute permission for
+everything in <tt class="FILENAME">/sbin</tt> except, perhaps, certain
+setuid and setgid programs.  The division between
+<tt class="FILENAME">/bin</tt> and <tt class="FILENAME">/sbin</tt> was not
+created for security reasons or to prevent users from seeing the
+operating system, but to provide a good partition between binaries
+that everyone uses and ones that are primarily used for administration
+tasks.  There is no inherent security advantage in making
+<tt class="FILENAME">/sbin</tt> off-limits for users.
+</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1192" href="#AEN1192"><span class="footnote">[20]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>This is particularly important as these areas will often contain both
+files initially installed by the distributor, and those added by the
+administrator.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1299" href="#AEN1299"><span class="footnote">[21]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Examples of such configuration files include
+<tt class="FILENAME">Xconfig</tt>, <tt class="FILENAME">XF86Config</tt>, or
+<tt class="FILENAME">system.twmrc</tt>)</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1389" href="#AEN1389"><span class="footnote">[22]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p> Miscellaneous
+architecture-independent application-specific static files and
+subdirectories must be placed in <tt class="FILENAME">/usr/share</tt>.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1394" href="#AEN1394"><span class="footnote">[23]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p> For example, the <tt class="FILENAME">perl5</tt> subdirectory for
+Perl 5 modules and libraries.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1402" href="#AEN1402"><span class="footnote">[24]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Some executable commands such as <b class="COMMAND">makewhatis</b> and
+<b class="COMMAND">sendmail</b> have also been traditionally placed in
+<tt class="FILENAME">/usr/lib</tt>.  <b class="COMMAND">makewhatis</b> is an
+internal binary and must be placed in a binary directory; users access
+only <b class="COMMAND">catman</b>.  Newer <b class="COMMAND">sendmail</b>
+binaries are now placed by default in <tt class="FILENAME">/usr/sbin</tt>.
+Additionally, systems using a <span class="emphasis"><i class="EMPHASIS">sendmail</i></span>-compatible
+mail transfer agent must provide
+<b class="COMMAND">/usr/sbin/sendmail</b> as a symbolic link to the
+appropriate executable. </p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1418" href="#AEN1418"><span class="footnote">[25]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Host-specific data for the X Window System must not be stored in
+<tt class="FILENAME">/usr/lib/X11</tt>.  Host-specific configuration files
+such as <tt class="FILENAME">Xconfig</tt> or
+<tt class="FILENAME">XF86Config</tt> must be stored in
+<tt class="FILENAME">/etc/X11</tt>.  This includes configuration data such
+as <tt class="FILENAME">system.twmrc</tt> even if it is only made a
+symbolic link to a more global configuration file (probably in
+<tt class="FILENAME">/usr/X11R6/lib/X11</tt>).</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1435" href="#AEN1435"><span class="footnote">[26]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>The case where <tt class="FILENAME">/usr/lib</tt> and <tt class="FILENAME">/usr/lib&lt;qual&gt;</tt> are the
+same (one is a symbolic link to the other) these files and the
+per-application subdirectories will exist.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1450" href="#AEN1450"><span class="footnote">[27]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Software placed in <tt class="FILENAME">/</tt> or
+<tt class="FILENAME">/usr</tt> may be overwritten by system upgrades
+(though we recommend that distributions do not overwrite data in
+<tt class="FILENAME">/etc</tt> under these circumstances).  For this
+reason, local software must not be placed outside of
+<tt class="FILENAME">/usr/local</tt> without good reason.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1530" href="#AEN1530"><span class="footnote">[28]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p><tt class="FILENAME">/usr/local/man</tt> may be deprecated in future FHS
+releases, so if all else is equal, making that one a symlink seems
+sensible.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1540" href="#AEN1540"><span class="footnote">[29]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Locally installed system administration programs should be placed in
+<tt class="FILENAME">/usr/local/sbin</tt>.</p><p></p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1550" href="#AEN1550"><span class="footnote">[30]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Much of this data originally lived in <tt class="FILENAME">/usr</tt>
+(<tt class="FILENAME">man</tt>, <tt class="FILENAME">doc</tt>) or
+<tt class="FILENAME">/usr/lib</tt> (<tt class="FILENAME">dict</tt>,
+<tt class="FILENAME">terminfo</tt>, <tt class="FILENAME">zoneinfo</tt>).</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1701" href="#AEN1701"><span class="footnote">[31]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Obviously, there are no manual pages in <tt class="FILENAME">/</tt>
+because they are not required at boot time nor are they required in
+emergencies. Really.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1741" href="#AEN1741"><span class="footnote">[32]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>For example, if <tt class="FILENAME">/usr/local/man</tt>
+has no manual pages in section 4 (Devices), then
+<tt class="FILENAME">/usr/local/man/man4</tt> may be omitted.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1797" href="#AEN1797"><span class="footnote">[33]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p> A major exception to this rule is the
+United Kingdom, which is `GB' in the ISO 3166, but `UK' for most email
+addresses.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN1944" href="#AEN1944"><span class="footnote">[34]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Some such files include:
+
+<tt class="FILENAME">airport</tt>, <tt class="FILENAME"> birthtoken</tt>, <tt class="FILENAME">eqnchar</tt>, <tt class="FILENAME"> getopt</tt>, <tt class="FILENAME">gprof.callg</tt>, <tt class="FILENAME"> gprof.flat</tt>, <tt class="FILENAME">inter.phone</tt>, <tt class="FILENAME"> ipfw.samp.filters</tt>,
+<tt class="FILENAME"> ipfw.samp.scripts</tt>, <tt class="FILENAME">keycap.pcvt</tt>, <tt class="FILENAME"> mail.help</tt>, <tt class="FILENAME">mail.tildehelp</tt>, <tt class="FILENAME"> man.template</tt>,
+<tt class="FILENAME">map3270</tt>, <tt class="FILENAME"> mdoc.template</tt>,
+<tt class="FILENAME">more.help</tt>, <tt class="FILENAME"> na.phone</tt>,
+<tt class="FILENAME">nslookup.help</tt>, <tt class="FILENAME"> operator</tt>,
+<tt class="FILENAME">scsi_modes</tt>, <tt class="FILENAME"> sendmail.hf</tt>,
+<tt class="FILENAME">style</tt>, <tt class="FILENAME"> units.lib</tt>,
+<tt class="FILENAME">vgrindefs</tt>, <tt class="FILENAME"> vgrindefs.db</tt>,
+<tt class="FILENAME">zipcodes</tt>
+</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2042" href="#AEN2042"><span class="footnote">[35]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Generally, source should not be built within this hierarchy.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2209" href="#AEN2209"><span class="footnote">[36]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>This standard does not currently incorporate the TeX Directory
+Structure (a document that describes the layout TeX files and
+directories), but it may be useful reading.  It is located at
+<a href="ftp://ctan.tug.org/tex/" target="_top">ftp://ctan.tug.org/tex/</a></p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2244" href="#AEN2244"><span class="footnote">[37]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>For example, <tt class="FILENAME">/usr/share/man/man1/ls.1</tt> is
+formatted into <tt class="FILENAME">/var/cache/man/cat1/ls.1</tt>, and
+<tt class="FILENAME">/usr/X11R6/man/&lt;locale&gt;/man3/XtClass.3x</tt> into
+<tt class="FILENAME">/var/cache/man/X11R6/&lt;locale&gt;/cat3/XtClass.3x</tt>.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2295" href="#AEN2295"><span class="footnote">[38]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>An important difference between this version of this standard and
+previous ones is that applications are now required to use a
+subdirectory of <tt class="FILENAME">/var/lib</tt>.  </p><p></p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2381" href="#AEN2381"><span class="footnote">[39]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>This hierarchy should contain files stored in
+<tt class="FILENAME">/var/db</tt> in current BSD releases.  These include
+<tt class="FILENAME">locate.database</tt> and
+<tt class="FILENAME">mountdtab</tt>, and the kernel symbol database(s).</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2396" href="#AEN2396"><span class="footnote">[40]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Then, anything wishing to use <tt class="FILENAME">/dev/ttyS0</tt>
+can read the lock file and act accordingly (all locks in
+<tt class="FILENAME">/var/lock</tt> should be world-readable).</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2437" href="#AEN2437"><span class="footnote">[41]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>Note that <tt class="FILENAME">/var/mail</tt> may be a symbolic link to
+another directory.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2469" href="#AEN2469"><span class="footnote">[42]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p><tt class="FILENAME">/var/run</tt> should be unwritable for unprivileged
+users (root or users running daemons); it is a major security problem
+if any user can write in this directory.</p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2493" href="#AEN2493"><span class="footnote">[43]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>UUCP lock files must be placed in <tt class="FILENAME">/var/lock</tt>.  See
+the above section on <tt class="FILENAME">/var/lock</tt>.  </p></td></tr><tr><td valign="TOP" width="5%" align="LEFT"><a name="FTN.AEN2582" href="#AEN2582"><span class="footnote">[44]</span></a></td><td valign="TOP" width="95%" align="LEFT"><p>NIS should not be confused with Sun NIS+, which uses a different
+directory, <tt class="FILENAME">/var/nis</tt>.</p></td></tr></tbody></table></body></html>

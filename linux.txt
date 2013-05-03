@@ -6,17 +6,57 @@ toolchain
 Need an already installed Linux system, the Host, for building the Rastakware Linux distribution.
 
 Recommended partitions :
-/boot
-/home
-/mnt
-/usr
-/usr/bin/
-/usr/doc/
-/usr/man/
-/usr/src/
-/usr/pkg/
-/opt
-/tmp
+# /bin
+#/boot
+#/dev
+#/etc
+#/etc/opt
+#/etc/X11
+#/etc/sgml
+#/etc/xml
+#/home
+#/lib
+#/mnt
+#/media
+#/opt
+#/proc
+#/root
+#/run
+#/sbin
+#/srv
+#/tmp
+#/usr
+#/usr/bin/
+#/usr/include
+#/usr/doc/
+#/usr/lib
+#/usr/libexec
+#/usr/pkg/
+#/usr/sbin
+#/usr/share
+#/usr/share/man
+#/usr/src/
+#/usr/X11R6
+#/usr/games
+#/usr/local
+#/usr/local/bin
+#/usr/local/etc
+#/usr/local/games
+#/usr/local/include
+#/usr/local/lib
+#/usr/local/man
+#/usr/local/sbin
+#/usr/local/share
+#/usr/local/src
+#/var
+#/var/lock
+#/var/log
+#/var/mail
+#/var/run
+#/var/spool
+#/var/spool/mail
+#/var/spool/news
+#/var/tmp 
 
 
 2)
