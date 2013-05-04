@@ -5,7 +5,7 @@ Rastakware GNU/Linux distribution
 
 # 1. FHS 2.3 requirements
 
-For FHS (_Filesystem Hierarchy Standard_) compliancy, the Rastakware distribution follows the requirements
+For FHS ( _Filesystem Hierarchy Standard_ ) compliancy, the Rastakware distribution follows the requirements
 described in the [fhs-2.3](http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html) specification.
 
 # 2. Download source archives
