@@ -7,7 +7,7 @@ Rastakware GNU/Linux distribution
 
 For FHS (Filesystem Hierarchy Standard) compliancy, the Rastakware distribution follows the requirements
 described in the [fhs-2.3](http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html) specification. The
-Rastakware filesystem directory tree should be implemented as describer below :
+filesystem directory tree is implemented as described below :
 
     /bin
     /boot
@@ -19,8 +19,8 @@ Rastakware filesystem directory tree should be implemented as describer below :
     /etc/xml
     /home
     /lib
+    /lib64
     /lib/modules
-    /lib/X11
     /media
     /media/floppy
     /media/cdrom
@@ -35,6 +35,7 @@ Rastakware filesystem directory tree should be implemented as describer below :
     /opt/info
     /opt/lib
     /opt/man
+    /proc
     /root
     /sbin
     /srv
@@ -43,7 +44,7 @@ Rastakware filesystem directory tree should be implemented as describer below :
     /usr/bin
     /usr/include
     /usr/lib
-    /usr/lib/X11 --> /lib/X11
+    /usr/lib/X11
     /usr/local
     /usr/local/bin
     /usr/local/etc
@@ -53,6 +54,7 @@ Rastakware filesystem directory tree should be implemented as describer below :
     /usr/local/man
     /usr/local/sbin
     /usr/local/share
+    /usr/local/share/man --> /usr/local/man
     /usr/local/src
     /usr/sbin
     /usr/share
@@ -79,11 +81,39 @@ Rastakware filesystem directory tree should be implemented as describer below :
     /usr/share/zoneinfo
     /usr/games
     /usr/src
+    /usr/src/linux
+    /usr/src/linux/include
     /var
+    /var/account
+    /var/cache
+    /var/cache/fonts
+    /var/cache/man
+    /var/cache/www
+    /var/crash
     /var/games
+    /var/mail
+    /var/lib
+    /var/lib/hwclock
+    /var/lib/misc
+    /var/lib/xdm
+    /var/local
     /var/lock
+    /var/log
+    /var/opt
+    /var/run
     /var/spool
+    /var/spool/cron
+    /var/spool/lpd
+    /var/spool/mqueue
+    /var/spool/news
+    /var/spool/rwho
+    /var/spool/uucp
     /var/tmp
+    /var/backups
+    /var/cron
+    /var/msgs
+    /var/preserve
+    /var/yp
 
 Under the `/bin` directory you must have the following binaries :
 [, cat, csh, chgrp, chmod, chown, cp, cpio, date, dd, df, dmesg, echo, ed, gzip, gunzip (link of gzip), false, ftp,
@@ -108,15 +138,30 @@ libc.so.*, ld*, cpp (C preprocessor).
 
 Under the `/sbin` directory you should have the following files :
 shutdown, fastboot, fasthalt, fdisk, fsck, fsck.*, getty, halt, ifconfig,
-init, mkfs, mkfs.*, mkswap, reboot, route, swapon, swapoff, update.
+init, mkfs, mkfs.*, mkswap, reboot, route, swapon, swapoff, update, badblocks,
+dumpe2fs, e2fsck, mke2fs, mklost+found, tune2fs, lilo, ldconfig, sln, ssync,
+ctrlaltdel, kbdrate.
 
 Under the `/usr/bin` directory you should have the following files :
-mh, perl, python, tclsh, wish, expect.
+mh, perl, python, tclsh, wish, expect, chfn, cpp.
+
+Under the `/usr/sbin` directory you should have the following files :
+makewhatis, sendmail, useradd, usermod.
 
 Under the `/usr/share/dict` directory, you should have the `words` file.
 
 Under the `/usr/share/misc` directory you should have the files :
 ascii, magic, termcap, termcap.db.
+
+Under the `/var/lib/hwclock` directory you should have the *adjtime* file.
+
+Under the `/var/log` directory you should have the following files :
+lastlog, messages, wtmp.
+
+Under the `/boot` directory you should have the *vmlinux* file. 
+
+Under the `/dev` directory you should have the following files :
+null, zero, tty.
 
 
 # 2. Download source archives
@@ -168,6 +213,13 @@ First build a host-independant system (compiler, assembler, linker, librairies,.
 http://refspecs.linuxfoundation.org/
 
 
+mktexpk
+
+syslogd
+
+crond
+
+rwhod
 
 
 
