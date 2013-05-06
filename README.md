@@ -5,9 +5,9 @@ Rastakware GNU/Linux distribution
 
 # 1. FHS 2.3 requirements
 
-For FHS (Filesystem Hierarchy Standard) compliancy, the Rastakware distribution follows the requirements
-described in the [fhs-2.3](http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html) specification. The
-filesystem directory tree is implemented as described below :
+For FHS (Filesystem Hierarchy Standard) compliancy, the Rastakware distribution follows the requirements described
+in the [fhs-2.3](http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html) specification. The Rastakware filesystem
+directory tree must be implemented as described below :
 
     /bin
     /boot
@@ -116,9 +116,9 @@ filesystem directory tree is implemented as described below :
     /var/yp
 
 Under the `/bin` directory you must have the following binaries :
-[, cat, csh, chgrp, chmod, chown, cp, cpio, date, dd, df, dmesg, echo, ed, gzip, gunzip (link of gzip), false, ftp,
+[, cat, csh, chgrp, chmod, chown, cp, cpio, date, dd, df, dmesg, echo, ed, gzip, gunzip (--> gzip), false, ftp,
 hostname, kill, ln, login, ls, mkdir, mknod, more, mount, mv, netstat, ping, ps,
-pwd, rm, rmdir, sed, sh, stty, su, sync, tar, tftp, tcsh, true, test, umount, uname, zcat (link of gzip).
+pwd, rm, rmdir, sed, sh, stty, su, sync, tar, tftp, tcsh, true, test, umount, uname, zcat (--> gzip).
 
 Under the `/dev` directory you should have the `MAKEDEV` binary.
 
@@ -134,7 +134,7 @@ Xconfig, XF86Config, Xmodmap.
 Under the `/etc/sgml` and `/etc/xml` directories you should have a `catalog` file.
 
 Under the `/lib` directory you should have the following files :
-libc.so.*, ld*, cpp (C preprocessor).
+libc.so.*, ld*, cpp (--> /usr/bin/cpp).
 
 Under the `/sbin` directory you should have the following files :
 shutdown, fastboot, fasthalt, fdisk, fsck, fsck.*, getty, halt, ifconfig,
@@ -143,7 +143,7 @@ dumpe2fs, e2fsck, mke2fs, mklost+found, tune2fs, lilo, ldconfig, sln, ssync,
 ctrlaltdel, kbdrate.
 
 Under the `/usr/bin` directory you should have the following files :
-mh, perl, python, tclsh, wish, expect, chfn, cpp.
+mh, perl, python, tclsh, wish, expect, chfn, cpp (C preprocessor).
 
 Under the `/usr/sbin` directory you should have the following files :
 makewhatis, sendmail, useradd, usermod.
@@ -153,12 +153,12 @@ Under the `/usr/share/dict` directory, you should have the `words` file.
 Under the `/usr/share/misc` directory you should have the files :
 ascii, magic, termcap, termcap.db.
 
-Under the `/var/lib/hwclock` directory you should have the *adjtime* file.
+Under the `/var/lib/hwclock` directory you should have the `adjtime` file.
 
 Under the `/var/log` directory you should have the following files :
 lastlog, messages, wtmp.
 
-Under the `/boot` directory you should have the *vmlinux* file. 
+Under the `/boot` directory you should have the `vmlinux` file. 
 
 Under the `/dev` directory you should have the following files :
 null, zero, tty.
@@ -189,6 +189,7 @@ First build a host-independant system (compiler, assembler, linker, librairies,.
     mkdir -v /mnt/rastakware
     cd /mnt/rastakware
     mkdir sources
+    mkdir patches
     mkdir tools
     mkdir tools/bin
     export LC_ALL=POSIX
