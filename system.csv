@@ -1,5 +1,5 @@
-"autoconf";"50f97f4159805e374639a73e2636f22e";"http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz"
-"automake";"0df082825f8f41087eb70c5088f4515e";"http://ftp.gnu.org/gnu/automake/automake-1.12.3.tar.xz"
+"autoconf";2.69;"http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.xz"
+"automake";"1.12.3";"http://ftp.gnu.org/gnu/automake/automake-1.12.3.tar.xz"
 "binutils";;
 "gcc";;
 "glibc";;

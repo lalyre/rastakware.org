@@ -118,50 +118,50 @@ directory tree must be implemented as described below :
 Under the `/bin` directory you must have the following binaries :
 [, cat, csh, chgrp, chmod, chown, cp, cpio, date, dd, df, dmesg, echo, ed, gzip, gunzip (--> gzip), false, ftp,
 hostname, kill, ln, login, ls, mkdir, mknod, more, mount, mv, netstat, ping, ps,
-pwd, rm, rmdir, sed, sh, stty, su, sync, tar, tftp, tcsh, true, test, umount, uname, zcat (--> gzip).
+pwd, rm, rmdir, sed, sh, stty, su, sync, tar, tftp, tcsh, true, test, umount, uname, zcat (--> gzip). **KO**
 
-Under the `/dev` directory you should have the `MAKEDEV` binary.
+Under the `/dev` directory you should have the `MAKEDEV` binary. **KO**
 
 Under the `/etc` directory you must have the following configuration files :
 csh.login, exports, fstab, ftpusers, gateways, gettydefs, group, host.conf, hosts,
 hosts.allow, hosts.deny, hosts.equiv, hosts.lpd, inetd.conf, inittab, issue, ld.so.conf,
 motd, mtab, mtools.conf, networks, passwd, printcap, profile, protocols, resolv.conf, rpc,
-securetty, services, shells, syslog.conf. 
+securetty, services, shells, syslog.conf.  **KO**
 
 Under the `/etc/X11` directory you should have the following configuration files :
-Xconfig, XF86Config, Xmodmap.
+Xconfig, XF86Config, Xmodmap. **KO**
 
-Under the `/etc/sgml` and `/etc/xml` directories you should have a `catalog` file.
+Under the `/etc/sgml` and `/etc/xml` directories you should have a `catalog` file. **KO**
 
 Under the `/lib` directory you should have the following files :
-libc.so.*, ld*, cpp (--> /usr/bin/cpp).
+libc.so.*, ld*, cpp (--> /usr/bin/cpp). **KO**
 
 Under the `/sbin` directory you should have the following files :
 shutdown, fastboot, fasthalt, fdisk, fsck, fsck.*, getty, halt, ifconfig,
 init, mkfs, mkfs.*, mkswap, reboot, route, swapon, swapoff, update, badblocks,
 dumpe2fs, e2fsck, mke2fs, mklost+found, tune2fs, lilo, ldconfig, sln, ssync,
-ctrlaltdel, kbdrate.
+ctrlaltdel, kbdrate. **KO**
 
 Under the `/usr/bin` directory you should have the following files :
-mh, perl, python, tclsh, wish, expect, chfn, cpp (C preprocessor).
+mh, perl, python, tclsh, wish, expect, chfn, cpp (C preprocessor). **KO**
 
 Under the `/usr/sbin` directory you should have the following files :
-makewhatis, sendmail, useradd, usermod.
+makewhatis, sendmail, useradd, usermod. **KO**
 
-Under the `/usr/share/dict` directory, you should have the `words` file.
+Under the `/usr/share/dict` directory, you should have the `words` file. **KO**
 
 Under the `/usr/share/misc` directory you should have the files :
-ascii, magic, termcap, termcap.db.
+ascii, magic, termcap, termcap.db. **KO**
 
-Under the `/var/lib/hwclock` directory you should have the `adjtime` file.
+Under the `/var/lib/hwclock` directory you should have the `adjtime` file. **KO**
 
 Under the `/var/log` directory you should have the following files :
-lastlog, messages, wtmp.
+lastlog, messages, wtmp. **KO**
 
-Under the `/boot` directory you should have the `vmlinux` file. 
+Under the `/boot` directory you should have the `vmlinux` file.  **KO**
 
 Under the `/dev` directory you should have the following files :
-null, zero, tty.
+null, zero, tty. **KO**
 
 
 # 2. Download source archives
@@ -178,13 +178,14 @@ Download sources archives that are described in the files [toolchain.csv](./tool
 
     mkdir packages
     chmod -v a+wt packages
-    cat toolchain.csv | cut -d";" -f2 | sed s/\"//g | wget -i - -P ./packages
-    cat system.csv | cut -d";" -f2 | sed s/\"//g | wget -i - -P ./packages
+    cat toolchain.csv | cut -d";" -f3 | sed s/\"//g | wget -i - -P ./packages
+    cat system.csv | cut -d";" -f3 | sed s/\"//g | wget -i - -P ./packages
 
 # 3. Build cross-compilation toolchain
 
-First build a host-independant system (compiler, assembler, linker, librairies,...)
+First build a host-independant system with cross-compilation tools (compiler, assembler, linker, librairies,...).
 
+    su root
     rmdir -rf /mnt/rastakware
     mkdir -v /mnt/rastakware
     cd /mnt/rastakware
@@ -192,10 +193,29 @@ First build a host-independant system (compiler, assembler, linker, librairies,.
     mkdir patches
     mkdir tools
     mkdir tools/bin
+    mkdir tools/lib
     export LC_ALL=POSIX
     export PATH=/mnt/rastakware/tools/bin:$PATH
 
 ## compile cross binutils
+
+    cp binutils-2.23.2.tar.gz /mnt/rastakware/sources
+    cd /mnt/rastakware/sources
+    tar xvfz binutils-2.23.2.tar.gz 
+    mkdir -v binutils-build
+    cd binutils-build
+    time { ../binutils-2.23.2/configure \
+    --prefix=/mnt/rastakware/tools \
+    --with-build-sysroot=/mnt/rastakware \
+    --with-lib-path=/mnt/rastakware/tools/lib \
+    --target=i686-linux \
+    --disable-werror \
+    && make && make install; }
+
+
+--target=powerpc-linux
+--target=sparc-linux
+--target=i686-linux
 
 ## compile cross gcc
 
