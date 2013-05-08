@@ -3,7 +3,7 @@ rastakware.org
 
 Rastakware GNU/Linux distribution
 
-# 1. FHS 2.3 requirements
+## 1. FHS 2.3 requirements
 
 For FHS (Filesystem Hierarchy Standard) compliancy, the Rastakware distribution follows the requirements described
 in the [fhs-2.3](http://refspecs.linuxfoundation.org/FHS_2.3/fhs-2.3.html) specification. The Rastakware filesystem
@@ -19,8 +19,8 @@ directory tree must be implemented as described below :
     /etc/xml
     /home
     /lib
-    /lib64
     /lib/modules
+    /lib64
     /media
     /media/floppy
     /media/cdrom
@@ -164,7 +164,7 @@ Under the `/dev` directory you should have the following files :
 null, zero, tty. **KO**
 
 
-# 2. Download source archives
+## 2. Download source archives
 
 You can edit the [toolchain.csv](./toolchain.csv) and [system.csv](./system.csv) files with OpenOffice
 with the following commands
@@ -181,23 +181,29 @@ Download sources archives that are described in the files [toolchain.csv](./tool
     cat toolchain.csv | cut -d";" -f3 | sed s/\"//g | wget -i - -P ./packages
     cat system.csv | cut -d";" -f3 | sed s/\"//g | wget -i - -P ./packages
 
-# 3. Build cross-compilation toolchain
+## 3. Build cross-compilation toolchain
 
 First build a host-independant system with cross-compilation tools (compiler, assembler, linker, librairies,...).
 
     su root
     rmdir -rf /mnt/rastakware
     mkdir -v /mnt/rastakware
+    groupadd rasta
+    useradd -s /bin/bash -g rasta -m -k /dev/null rasta
+    passwd rasta
+    chown -v rasta /mnt/rastawkare
+    su - rasta
     cd /mnt/rastakware
     mkdir sources
     mkdir patches
     mkdir tools
     mkdir tools/bin
     mkdir tools/lib
+    ln -sv /mnt/rastakware/tools /
     export LC_ALL=POSIX
     export PATH=/mnt/rastakware/tools/bin:$PATH
 
-## compile cross binutils
+### compile cross Binutils
 
     cp binutils-2.23.2.tar.gz /mnt/rastakware/sources
     cd /mnt/rastakware/sources
@@ -207,22 +213,80 @@ First build a host-independant system with cross-compilation tools (compiler, as
     time { ../binutils-2.23.2/configure \
     --prefix=/mnt/rastakware/tools \
     --with-build-sysroot=/mnt/rastakware \
-    --with-lib-path=/mnt/rastakware/tools/lib \
-    --target=i686-linux \
-    --disable-werror \
+    --with-lib-path=/tools/lib \
+    --target=x86-rastakware-linux \
     && make && make install; }
 
 
---target=powerpc-linux
---target=sparc-linux
---target=i686-linux
+--target=x86-rastakware-linux
+--target=x86_64-rastakware-linux
 
-## compile cross gcc
-
-
+ld --verbose | grep SEARCH
+gcc -print-prog-name=ld
 
 
 
+
+### compile cross Gcc
+
+
+tar -Jxf ../mpfr-3.1.1.tar.xz
+mv -v mpfr-3.1.1 mpfr
+tar -Jxf ../gmp-5.1.1.tar.xz
+mv -v gmp-5.1.1 gmp
+tar -zxf ../mpc-1.0.1.tar.gz
+mv -v mpc-1.0.1 mpc
+
+
+mkdir -v ../gcc-build
+cd ../gcc-build
+
+../gcc-4.7.2/configure         \
+    --target=$LFS_TGT          \
+    --prefix=/tools            \
+    --with-sysroot=$LFS        \
+    --with-newlib              \
+    --without-headers          \
+    --with-local-prefix=/tools \
+    --with-native-system-header-dir=/tools/include \
+    --disable-nls              \
+    --disable-shared           \
+    --disable-multilib         \
+    --disable-decimal-float    \
+    --disable-threads          \
+    --disable-libmudflap       \
+    --disable-libssp           \
+    --disable-libgomp          \
+    --disable-libquadmath      \
+    --enable-languages=c       \
+    --with-mpfr-include=$(pwd)/../gcc-4.7.2/mpfr/src \
+    --with-mpfr-lib=$(pwd)/mpfr/src/.libs
+
+make
+
+make install
+
+ln -sv libgcc.a `$LFS_TGT-gcc -print-libgcc-file-name | sed 's/libgcc/&_eh/'`
+
+
+
+### compile bootstrap Linux API headers 
+
+    make mrproper
+    make headers_check
+    make INSTALL_HDR_PATH=dest headers_install
+    cp -rv dest/include/* /tools/include
+
+
+
+### compile bootstrap Glibc
+
+
+
+### compile bootstrap Binutils
+
+
+### compile bootstrap Gcc
 
 
 
@@ -244,7 +308,7 @@ rwhod
 
 
 
-# TODO
+## TODO
 
 - supported hardware devices
 - automatic/manual OS upgrade
