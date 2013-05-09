@@ -71,6 +71,7 @@
 "sysvinit";;
 "Udev";;
 "Udev-lfs";;
+"LFS-Bootscripts";;
 "udev configuration";;
 "Util-linux";;
 "vim";;
