@@ -214,24 +214,24 @@ First build a host-independant system with cross-compilation tools (compiler, as
     time { ../binutils-2.23.2/configure \
     --prefix=/mnt/rastakware/tools \
     --target=i386-rastakware-linux-gnu \
-    **--with-lib-path=/tools/lib** \
-    **--with-sysroot=/mnt/rastakware** \
+    --with-lib-path=/tools/lib \
+    --with-sysroot=/mnt/rastakware \
     && make && make install; }
 
     rm -rf
     time { ../binutils-2.23.2/configure \
     --prefix=/mnt/rastakware/tools \
     --target=x86_64-rastakware-linux-gnu \
-    **--with-lib-path=/tools/lib** \
-    **--with-sysroot=/mnt/rastakware** \
+    --with-lib-path=/tools/lib \
+    --with-sysroot=/mnt/rastakware \
     && make && make install; }
 
     rm -rf
     time { ../binutils-2.23.2/configure \
     --prefix=/mnt/rastakware/tools \
     --target=x86_64-apple-darwin12.3.0 \
-    **--with-lib-path=/tools/lib** \
-    **--with-sysroot=/mnt/rastakware** \
+    --with-lib-path=/tools/lib \
+    --with-sysroot=/mnt/rastakware \
     && make && make install; }
 
     /mnt/rastakware/tools/bin/i386-rastakware-linux-gnu-ld --verbose | grep SEARCH
@@ -290,6 +290,7 @@ First build a host-independant system with cross-compilation tools (compiler, as
     --disable-libssp \
     --disable-libgomp \
     --disable-libquadmath \
+    --disable-libatomic \
     --enable-languages=c \
     --with-mpfr-include=$(pwd)/../gcc-4.8.0/mpfr/src \
     --with-mpfr-lib=$(pwd)/mpfr/src/.libs
@@ -297,11 +298,14 @@ First build a host-independant system with cross-compilation tools (compiler, as
     make
     make install
 
+    gcc -print-prog-name=ld
+    ln -sv gcc /tools/bin/cc
 
+    echo 'main(){}' > dummy.c
+    cc dummy.c
+    readelf -l a.out | grep ': /tools'
+    rm -v dummy.c a.out
 
-ln -sv libgcc.a `$LFS_TGT-gcc -print-libgcc-file-name | sed 's/libgcc/&_eh/'`
-
-gcc -print-prog-name=ld
 
 
 ### compile bootstrap Linux API headers 
@@ -339,6 +343,28 @@ syslogd
 crond
 
 rwhod
+
+
+
+
+/etc/bashrc
+/etc/dircolors
+/etc/fstab
+/etc/hosts
+/etc/inputrc
+/etc/profile
+/etc/resolv.conf
+/etc/vimrc
+/root/.bash_profile
+/root/.bashrc
+/etc/sysconfig/network
+/etc/sysconfig/ifconfig.eth0
+
+
+http://freecode.com/
+http://www.cert.org/
+http://www.us-cert.gov/cas/signup.html
+http://www.securityfocus.com/archive
 
 
 
