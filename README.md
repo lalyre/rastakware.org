@@ -187,6 +187,7 @@ Download sources archives that are described in the files [toolchain.csv](./tool
 As described in [LFS](http://www.linuxfromscratch.org/lfs/view/stable/) specification, you first
 need to build a host-independant system with cross-compilation tools (compiler, assembler, linker,
 librairies,...) that reside in a `/TOOLS` directory. Just execute the following commands
+
     su root
     rmdir -rf {/mnt/rastakware,/TOOLS}
     mkdir -v /mnt/rastakware/{,sources,patches,TOOLS}
@@ -199,6 +200,7 @@ librairies,...) that reside in a `/TOOLS` directory. Just execute the following 
 
 Then create a dedicated user **rasta** for the compilation procedures and executed the script [toolchain.sh](./toolchain.sh)
 with that user.
+
     su - rasta
     ./toolchain.sh
 
