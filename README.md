@@ -117,9 +117,9 @@ directory tree must be implemented as described below :
     /var/yp
 
 Under the `/bin` directory you must have the following binaries :
-[, cat, csh, chgrp, chmod, chown, cp, cpio, date, dd, df, dmesg, echo, ed, gzip, gunzip (--> gzip), false, ftp,
+[, bash, cat, csh, chgrp, chmod, chown, cp, cpio, date, dd, df, dmesg, echo, ed, gzip, gunzip (--> gzip), false, ftp,
 hostname, kill, ln, login, ls, mkdir, mknod, more, mount, mv, netstat, ping, ps,
-pwd, rm, rmdir, sed, sh, stty, su, sync, tar, tftp, tcsh, true, test, umount, uname, zcat (--> gzip). **KO**
+pwd, rm, rmdir, sed, sh (--> bash), stty, su, sync, tar, tftp, tcsh, true, test, umount, uname, zcat (--> gzip). **KO**
 
 Under the `/dev` directory you should have the `MAKEDEV` binary. **KO**
 
@@ -144,7 +144,7 @@ dumpe2fs, e2fsck, mke2fs, mklost+found, tune2fs, lilo, ldconfig, sln, ssync,
 ctrlaltdel, kbdrate. **KO**
 
 Under the `/usr/bin` directory you should have the following files :
-mh, perl, python, tclsh, wish, expect, chfn, cpp (C preprocessor). **KO**
+awk (--> gawk), yacc (--> bison), mh, perl, python, tclsh, wish, expect, chfn, cpp (C preprocessor). **KO**
 
 Under the `/usr/sbin` directory you should have the following files :
 makewhatis, sendmail, useradd, usermod. **KO**
@@ -182,22 +182,27 @@ Download sources archives that are described in the files [toolchain.csv](./tool
     cat toolchain.csv | cut -d";" -f3 | sed s/\"//g | wget -i - -P ./packages
     cat system.csv | cut -d";" -f3 | sed s/\"//g | wget -i - -P ./packages
 
-## 3. Build cross-compilation toolchain
+## 3. Build temporary bootstrap toolchain
 
-First build a host-independant system with cross-compilation tools (compiler, assembler, linker, librairies,...).
-
+As described in [LFS](http://www.linuxfromscratch.org/lfs/view/stable/) specification, you first
+need to build a host-independant system with cross-compilation tools (compiler, assembler, linker,
+librairies,...) that reside in a `/TOOLS` directory. Just execute the following commands
     su root
-    rmdir -rf /mnt/rastakware
-    mkdir -v /mnt/rastakware
+    rmdir -rf {/mnt/rastakware,/TOOLS}
+    mkdir -v /mnt/rastakware/{,sources,patches,TOOLS}
+    mkdir -v /mnt/rastakware/TOOLS/{include,bin,lib}
+    ln -sv /mnt/rastakware/TOOLS /TOOLS
     groupadd rasta
     useradd -s /bin/bash -g rasta -m -k /dev/null rasta
     passwd rasta
     chown -R -v rasta /mnt/rastawkare
+
+Then create a dedicated user **rasta** for the compilation procedures and executed the script [toolchain.sh](./toolchain.sh)
+with that user.
     su - rasta
-    cd /mnt/rastakware
-    mkdir sources
-    mkdir patches
-    mkdir tools/{,bin,lib}
+    ./toolchain.sh
+
+
 
 ### compile cross Binutils
 
@@ -229,7 +234,7 @@ First build a host-independant system with cross-compilation tools (compiler, as
     rm -rf
     time { ../binutils-2.23.2/configure \
     --prefix=/mnt/rastakware/tools \
-    --target=x86_64-apple-darwin12.3.0 \
+    --target=x86_64-rastakware-darwin12.3.0 \
     --with-lib-path=/tools/lib \
     --with-sysroot=/mnt/rastakware \
     && make && make install; }
@@ -302,7 +307,7 @@ First build a host-independant system with cross-compilation tools (compiler, as
     ln -sv gcc /tools/bin/cc
 
     echo 'main(){}' > dummy.c
-    cc dummy.c
+    cc -v dummy.c
     readelf -l a.out | grep ': /tools'
     rm -v dummy.c a.out
 
@@ -345,7 +350,7 @@ crond
 rwhod
 
 
-
+‘cpu-vendor-os’
 
 /etc/bashrc
 /etc/dircolors
