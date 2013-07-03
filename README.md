@@ -184,14 +184,13 @@ Download sources archives that are described in the files [toolchain.csv](./tool
 
 ## 3. Build temporary bootstrap toolchain
 
-As described in [LFS](http://www.linuxfromscratch.org/lfs/view/stable/) specification, you first
+As described in [LFS](http://www.linuxfromscratch.org/lfs/view/7.3) specification, you first
 need to build a host-independant system with cross-compilation tools (compiler, assembler, linker,
 librairies,...) that reside in a `/TOOLS` directory. Just execute the following commands
 
     su root
     rm -rf {/mnt/rastakware,/TOOLS}
-    mkdir -v /mnt/rastakware/{,sources,patches,build,TOOLS}
-    mkdir -v /mnt/rastakware/TOOLS/{include,bin,lib,etc}
+    mkdir -v /mnt/rastakware/{sources,patches}
     ln -sv /mnt/rastakware/TOOLS /TOOLS
     ln -sv /mnt/rastakware/TOOLS/lib /mnt/rastakware/TOOLS/lib64
     groupdel rasta
