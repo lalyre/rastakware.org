@@ -1076,3 +1076,41 @@ rm -v dummy.c a.out dummy.log
 - POSIX compliancy
 
 
+
+
+Lancer le site Web avec Maven
+-----------------------------
+Taper la commande `mvn jetty:run` ou `mvn tomcat7:run`. Une fois que le
+serveur Jetty ou Tomcat est lancé, ouvrir un navigateur avec l'URL suivante
+
+    http://localhost:8080/kenoconcept/
+
+
+
+TODO configuration servlet CGI tomcat et jetty
+TODO configuration Wordpress
+TODO affichage d'une liste de résultats
+TODO import fichier historique Keno FDJ
+TODO parsing page resultat FDJ
+TODO affichage historique Keno
+TODO mettre en ligne cette version 0.1
+
+TODO cliquer sur un numero, le surligner partout dans l'historique
+TODO retard de sortie des numéros
+TODO nombre de sortie des numéros sur une periode donnee
+TODO numéros amis sur 1, 2, 3, 4 ou 5 dernières sorties 
+TODO numéros annonciateurs sur 1, 2, 3, 4 ou 5 dernières sorties à Tirage-1, Tirage-2, Tirage-3, Tirage-4, Tirage-5
+TODO trouver les x-uplets les moins sortis
+TODO trouver les x-uplets les plus sortis
+TODO trouver les combinaisons deja sorties contenant un x-uplet
+TODO configuration HaProxy pour partage plusieurs site Web sur une seule machine
+TODO Docker pour déploiement
+TODO configuration firewall Bind
+
+
+## References
+
+1. [HTML 5.1](http://www.w3.org/TR/html51/single-page.html "HTML 5.1 specification")    
+2. [CSS 2](http://www.w3.org/TR/CSS2/css2.pdf "CSS 2 specification")    
+3. Cookie specification - [RFC2964](http://www.ietf.org/rfc/rfc2964.txt "RFC2964") - [RFC2965](http://www.ietf.org/rfc/rfc2965.txt "RFC2965")    
+
