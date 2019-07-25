@@ -1,7 +1,7 @@
 rastakware.org
 ==============
-
 Rastakware GNU/Linux distribution
+
 
 ## 1. FHS 2.3 requirements
 
